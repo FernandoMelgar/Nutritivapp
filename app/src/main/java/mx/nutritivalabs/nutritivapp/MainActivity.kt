@@ -1,4 +1,4 @@
-package com.example.nutritivapp
+package mx.nutritivalabs.nutritivapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
