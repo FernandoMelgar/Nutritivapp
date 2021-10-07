@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nutritivapp">
         <activity
+            android:name=".homescreen.HomeScreen"
+            android:exported="true"
+            android:label="@string/title_activity_home_screen"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
