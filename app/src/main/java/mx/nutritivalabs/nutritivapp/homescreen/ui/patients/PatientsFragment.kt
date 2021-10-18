@@ -8,12 +8,17 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import mx.nutritivalabs.nutritivapp.databinding.FragmentPatientsBinding
+import mx.nutritivalabs.nutritivapp.homescreen.ui.add_patient.AddPatientFragment
 
-class PatientsFragment : Fragment() {
+class PatientsFragment : Fragment(), RowListener {
 
     private lateinit var patientsViewModel: PatientsViewModel
     private var _binding: FragmentPatientsBinding? = null
+
+    private val patientAdapter = PatientAdapter(arrayListOf())
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -35,10 +40,32 @@ class PatientsFragment : Fragment() {
             textView.text = it
         })
         return root
+
+        configureAdapter()
+        configureEvents()
+
+    }
+
+    private fun configureEvents() {
+        binding.fabAddPatient.setOnClickListener {
+            //TODO iniciar proceso de agregar paciente
+        }
+    }
+
+    private fun configureAdapter() {
+        binding.rvPatient.apply{
+            layoutManager = LinearLayoutManager(context)
+            adapter = patientAdapter
+        }
+        patientAdapter.listener = this
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun rowClick(position: Int) {
+        TODO("Not yet implemented")
     }
 }
