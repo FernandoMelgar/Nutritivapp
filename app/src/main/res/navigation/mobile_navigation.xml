@@ -9,17 +9,47 @@
         android:id="@+id/navigation_home"
         android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_configuration"
+            app:destination="@id/navigation_configuration" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_patients"
         android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.patients.PatientsFragment"
         android:label="@string/title_patients"
-        tools:layout="@layout/fragment_patients" />
+        tools:layout="@layout/fragment_patients" >
+        <action
+            android:id="@+id/action_navigation_patients_to_addPatientFragment"
+            app:destination="@id/addPatientFragment" />
+        <action
+            android:id="@+id/action_navigation_patients_to_patientDetailFragment"
+            app:destination="@id/patientDetailFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_user"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.user.UserFragment"
+        android:label="User"
+        tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/navigation_configuration"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.configuration.ConfigurationFragment"
+        android:label="configuration_fragment"
+        tools:layout="@layout/configuration_fragment" >
+        <action
+            android:id="@+id/action_navigation_configuration_to_navigation_user"
+            app:destination="@id/navigation_user" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPatientFragment"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.add_patient.AddPatientFragment"
+        android:label="add_patient_fragment"
+        tools:layout="@layout/add_patient_fragment" />
+    <fragment
+        android:id="@+id/patientDetailFragment"
+        android:name="mx.nutritivalabs.nutritivapp.PatientDetailFragment"
+        android:label="patient_detail_fragment"
+        tools:layout="@layout/patient_detail_fragment" />
 </navigation>
