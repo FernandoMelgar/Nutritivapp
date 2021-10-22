@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_configuration"
+            app:destination="@id/navigation_configuration" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_patients"
@@ -18,8 +22,17 @@
         tools:layout="@layout/fragment_patients" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_user"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.user.UserFragment"
+        android:label="User"
+        tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/navigation_configuration"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.configuration.ConfigurationFragment"
+        android:label="configuration_fragment"
+        tools:layout="@layout/configuration_fragment" >
+        <action
+            android:id="@+id/action_navigation_configuration_to_navigation_user"
+            app:destination="@id/navigation_user" />
+    </fragment>
 </navigation>
