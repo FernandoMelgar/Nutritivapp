@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import mx.nutritivalabs.nutritivapp.databinding.FragmentPatientsBinding
 import mx.nutritivalabs.nutritivapp.homescreen.ui.add_patient.AddPatientFragment
@@ -47,8 +48,9 @@ class PatientsFragment : Fragment(), RowListener {
     }
 
     private fun configureEvents() {
-        binding.fabAddPatient.setOnClickListener {
-            //TODO iniciar proceso de agregar paciente
+        binding.fabNewPatient.setOnClickListener {
+            val action = PatientsFragmentDirections.actionNavigationPatientsToAddPatientFragment()
+            findNavController().navigate(action)
         }
     }
 
@@ -66,6 +68,6 @@ class PatientsFragment : Fragment(), RowListener {
     }
 
     override fun rowClick(position: Int) {
-        TODO("Not yet implemented")
+
     }
 }
