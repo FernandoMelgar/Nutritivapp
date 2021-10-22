@@ -3,13 +3,14 @@ package mx.nutritivalabs.nutritivapp.patient
 import java.time.LocalDate
 
 data class Patient(
+    var id: Int = 0,
     var firstName: String,
     val paternalLastName: String?,
     val maternalLastName: String?,
-    val birthDate: LocalDate,
-    val energyRequirements: EnergyRequirements?,
-    val goals: List<String>,
-    val firstTime: Boolean
+    val birthDate: LocalDate? = null,
+    val energyRequirements: EnergyRequirements? = null,
+    val goals: List<String>? = null,
+    val firstTime: Boolean = true
 ) {
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"
@@ -17,8 +18,8 @@ data class Patient(
 }
 
 data class EnergyRequirements(
-    val calories: Int,
-    val proteinPercentage: Int,
-    val carbohydratePercentage: Int,
-    val lipidPercentage: Int
+    val calories: Int = 0,
+    val proteinPercentage: Int = 0,
+    val carbohydratePercentage: Int = 0,
+    val lipidPercentage: Int = 0
 )
