@@ -36,15 +36,18 @@ class PatientsFragment : Fragment(), RowListener {
         _binding = FragmentPatientsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        patientsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
-
         configureAdapter()
         configureEvents()
+        configureObservers()
+        patientsViewModel.updatePatientsList()
 
+        return root
+    }
+
+    private fun configureObservers() {
+        patientsViewModel.patientsList.observe(viewLifecycleOwner){list->
+            patientAdapter.updateData(list)
+        }
     }
 
     private fun configureEvents() {
@@ -68,6 +71,7 @@ class PatientsFragment : Fragment(), RowListener {
     }
 
     override fun rowClick(position: Int) {
-
+        val action = PatientsFragmentDirections.actionNavigationPatientsToPatientDetailFragment()
+        findNavController().navigate(action)
     }
 }

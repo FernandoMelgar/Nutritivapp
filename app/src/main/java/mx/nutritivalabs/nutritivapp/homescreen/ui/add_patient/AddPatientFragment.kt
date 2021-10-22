@@ -41,11 +41,13 @@ class AddPatientFragment : Fragment() {
     private fun configureEvents() {
         binding.btnRegisterPatient.setOnClickListener {
             val patient: Patient
+            val id = 0
             val name = binding.etName.text.toString()
             val lastName = binding.etLastName.text.toString()
             val secondLastName = binding.etSecondLastName.text.toString()
-            patient = Patient(name, lastName, secondLastName)
-            viewModel.addPatient(patient)
+            patient = Patient(id, name, lastName, secondLastName)
+//            viewModel.addPatient(patient)
+            println("paciente añadido")
         }
     }
 

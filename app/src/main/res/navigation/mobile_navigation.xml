@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_navigation_patients_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />
+        <action
+            android:id="@+id/action_navigation_patients_to_patientDetailFragment"
+            app:destination="@id/patientDetailFragment" />
     </fragment>
 
     <fragment
@@ -44,4 +47,9 @@
         android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.add_patient.AddPatientFragment"
         android:label="add_patient_fragment"
         tools:layout="@layout/add_patient_fragment" />
+    <fragment
+        android:id="@+id/patientDetailFragment"
+        android:name="mx.nutritivalabs.nutritivapp.PatientDetailFragment"
+        android:label="patient_detail_fragment"
+        tools:layout="@layout/patient_detail_fragment" />
 </navigation>

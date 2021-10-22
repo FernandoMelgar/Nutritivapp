@@ -3,6 +3,7 @@ package mx.nutritivalabs.nutritivapp.patient
 import java.time.LocalDate
 
 data class Patient(
+    var id: Int = 0,
     var firstName: String,
     val paternalLastName: String?,
     val maternalLastName: String?,

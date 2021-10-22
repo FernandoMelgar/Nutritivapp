@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.patient.Patient
@@ -26,19 +27,29 @@ class PatientAdapter(var patientArray: ArrayList<Patient>) : RecyclerView.Adapte
         holder.set(patientArray[position])
 
         val row = holder.itemView.findViewById<LinearLayout>(R.id.rowLayout)
+
         row.setOnClickListener {
-            //TODO show the patient fragment with more info
+            listener?.rowClick(position)
         }
+
     }
 
     override fun getItemCount(): Int {
         return patientArray.size
     }
 
-    class PatientViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        //TODO implement
-        fun set(patient: Patient){
+    fun updateData(list: ArrayList<Patient>){
+        for(patient: Patient in list){
+            patientArray.add(patient)
+        }
+        notifyDataSetChanged()
+    }
 
+    class PatientViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        private val tvName = view.findViewById<TextView>(R.id.tvPatientName)
+
+        fun set(patient: Patient){
+            tvName.setText(patient.firstName)
         }
     }
 
