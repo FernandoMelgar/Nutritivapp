@@ -13,13 +13,27 @@
 
     <fragment
         android:id="@+id/navigation_patients"
-        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.patients.PatientsFragment"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.patients.PatientsListFragment"
         android:label="@string/title_patients"
-        tools:layout="@layout/fragment_patients" />
+        tools:layout="@layout/fragment_patients_list" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/patientFragment"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.patients.PatientFragment"
+        android:label="patient_fragment"
+        tools:layout="@layout/patient_fragment" />
+    <fragment
+        android:id="@+id/patientsListFragment3"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.patients.PatientsListFragment"
+        android:label="patients_list_fragment"
+        tools:layout="@layout/patients_list_fragment" >
+        <action
+            android:id="@+id/action_patientsListFragment3_to_patientFragment"
+            app:destination="@id/patientFragment" />
+    </fragment>
 </navigation>
