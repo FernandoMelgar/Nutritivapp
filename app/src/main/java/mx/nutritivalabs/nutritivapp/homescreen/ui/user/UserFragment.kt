@@ -11,9 +11,7 @@ import mx.nutritivalabs.nutritivapp.databinding.FragmentUserBinding
 class UserFragment : Fragment() {
 
     private lateinit var userViewModel: UserViewModel
-
     private lateinit var binding: FragmentUserBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
