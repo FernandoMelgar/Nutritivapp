@@ -13,10 +13,12 @@
         <entry key="..\:/Users/Rupy/Documents/Trabajos Uni/7mo semestre/aplicacionesMoviles/Nutritivapp/app/src/main/res/layout/fragment_patients_list.xml" value="0.14375" />
         <entry key="..\:/Users/Rupy/Documents/Trabajos Uni/7mo semestre/aplicacionesMoviles/Nutritivapp/app/src/main/res/layout/fragment_user.xml" value="0.22146739130434784" />
         <entry key="..\:/Users/Rupy/Documents/Trabajos Uni/7mo semestre/aplicacionesMoviles/Nutritivapp/app/src/main/res/layout/patient_row.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
