@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.databinding.AddPatientFragmentBinding
@@ -40,15 +41,20 @@ class AddPatientFragment : Fragment() {
 
     private fun configureEvents() {
         binding.btnRegisterPatient.setOnClickListener {
-            val patient: Patient
-            val id = 0
-            val name = binding.etName.text.toString()
-            val lastName = binding.etLastName.text.toString()
-            val secondLastName = binding.etSecondLastName.text.toString()
-            patient = Patient(id, name, lastName, secondLastName)
-//            viewModel.addPatient(patient)
-            println("paciente añadido")
+            val action = AddPatientFragmentDirections.actionAddPatientFragmentToNavigationPatients()
+                .setPatient(createPatient())
+            findNavController().navigate(action)
         }
+    }
+
+    private fun createPatient(): Patient {
+        val patient: Patient
+        val id = 0
+        val name = binding.etName.text.toString()
+        val lastName = binding.etLastName.text.toString()
+        val secondLastName = binding.etSecondLastName.text.toString()
+        patient = Patient(id, name, lastName, secondLastName)
+        return patient
     }
 
     private fun configureObservers() {

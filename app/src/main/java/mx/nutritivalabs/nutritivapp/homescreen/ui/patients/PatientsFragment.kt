@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import mx.nutritivalabs.nutritivapp.databinding.FragmentPatientsBinding
-import mx.nutritivalabs.nutritivapp.homescreen.ui.add_patient.AddPatientFragment
+import mx.nutritivalabs.nutritivapp.patient.Patient
 
 class PatientsFragment : Fragment(), RowListener {
 
@@ -19,6 +18,8 @@ class PatientsFragment : Fragment(), RowListener {
     private var _binding: FragmentPatientsBinding? = null
 
     private val patientAdapter = PatientAdapter(arrayListOf())
+
+    private val args: PatientsFragmentArgs by navArgs<PatientsFragmentArgs>()
 
 
     // This property is only valid between onCreateView and
@@ -36,16 +37,19 @@ class PatientsFragment : Fragment(), RowListener {
         _binding = FragmentPatientsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
+
         configureAdapter()
         configureEvents()
         configureObservers()
-        patientsViewModel.updatePatientsList()
+
+        patientsViewModel.updatePatientsList(args.patient)
 
         return root
     }
 
     private fun configureObservers() {
-        patientsViewModel.patientsList.observe(viewLifecycleOwner){list->
+        patientsViewModel.patientsListLive.observe(viewLifecycleOwner){list->
             patientAdapter.updateData(list)
         }
     }
@@ -71,7 +75,8 @@ class PatientsFragment : Fragment(), RowListener {
     }
 
     override fun rowClick(position: Int) {
-        val action = PatientsFragmentDirections.actionNavigationPatientsToPatientDetailFragment()
+        val selectedPatient = patientAdapter.patientArray[position]
+        val action = PatientsFragmentDirections.actionNavigationPatientsToPatientDetailFragment(selectedPatient)
         findNavController().navigate(action)
     }
 }

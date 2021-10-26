@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
+import mx.nutritivalabs.nutritivapp.homescreen.ui.patients.PatientsFragmentArgs
 
 class PatientDetailFragment : Fragment() {
 
@@ -14,6 +16,8 @@ class PatientDetailFragment : Fragment() {
     }
 
     private lateinit var viewModel: PatientDetailViewModel
+
+    private val args: PatientsFragmentArgs by navArgs<PatientsFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

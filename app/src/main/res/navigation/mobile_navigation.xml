@@ -26,6 +26,11 @@
         <action
             android:id="@+id/action_navigation_patients_to_patientDetailFragment"
             app:destination="@id/patientDetailFragment" />
+        <argument
+            android:name="patient"
+            app:argType="mx.nutritivalabs.nutritivapp.patient.Patient"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -46,10 +51,18 @@
         android:id="@+id/addPatientFragment"
         android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.add_patient.AddPatientFragment"
         android:label="add_patient_fragment"
-        tools:layout="@layout/add_patient_fragment" />
+        tools:layout="@layout/add_patient_fragment" >
+        <action
+            android:id="@+id/action_addPatientFragment_to_navigation_patients"
+            app:destination="@id/navigation_patients" />
+    </fragment>
     <fragment
         android:id="@+id/patientDetailFragment"
         android:name="mx.nutritivalabs.nutritivapp.PatientDetailFragment"
         android:label="patient_detail_fragment"
-        tools:layout="@layout/patient_detail_fragment" />
+        tools:layout="@layout/patient_detail_fragment" >
+        <argument
+            android:name="patient"
+            app:argType="mx.nutritivalabs.nutritivapp.patient.Patient" />
+    </fragment>
 </navigation>

@@ -1,5 +1,6 @@
 package mx.nutritivalabs.nutritivapp.patient
 
+import java.io.Serializable
 import java.time.LocalDate
 
 data class Patient(
@@ -11,7 +12,7 @@ data class Patient(
     val energyRequirements: EnergyRequirements? = null,
     val goals: List<String>? = null,
     val firstTime: Boolean = true
-) {
+):Serializable {
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"
 
