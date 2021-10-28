@@ -11,7 +11,9 @@ data class Patient(
     val birthDate: LocalDate? = null,
     val energyRequirements: EnergyRequirements? = null,
     val goals: List<String>? = null,
-    val firstTime: Boolean = true
+    val firstTime: Boolean = true,
+    val email: String? = null,
+    val phoneNumber: String? = null
 ):Serializable {
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"

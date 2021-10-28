@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import mx.nutritivalabs.nutritivapp.R
@@ -19,24 +20,23 @@ class AddPatientFragment : Fragment() {
         fun newInstance() = AddPatientFragment()
     }
 
-    private lateinit var viewModel: AddPatientViewModel
+    private val viewModel: AddPatientViewModel by viewModels()
+    private lateinit var binding: AddPatientFragmentBinding
 
-    private var _binding: AddPatientFragmentBinding? = null
-
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = AddPatientFragmentBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
-        _binding = AddPatientFragmentBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         configureObservers()
         configureEvents()
-
-
-        return root
     }
 
     private fun configureEvents() {
@@ -53,7 +53,9 @@ class AddPatientFragment : Fragment() {
         val name = binding.etName.text.toString()
         val lastName = binding.etLastName.text.toString()
         val secondLastName = binding.etSecondLastName.text.toString()
-        patient = Patient(id, name, lastName, secondLastName)
+        val email = binding.etEmail.text.toString()
+        val phoneNumer = binding.etPhoneNumber.text.toString()
+        patient = Patient(id, name, lastName, secondLastName, email = email, phoneNumber = phoneNumer)
         return patient
     }
 

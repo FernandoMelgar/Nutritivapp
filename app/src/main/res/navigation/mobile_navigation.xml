@@ -58,9 +58,9 @@
     </fragment>
     <fragment
         android:id="@+id/patientDetailFragment"
-        android:name="mx.nutritivalabs.nutritivapp.PatientDetailFragment"
+        android:name="mx.nutritivalabs.nutritivapp.homescreen.ui.patient.PatientDetailFragment"
         android:label="patient_detail_fragment"
-        tools:layout="@layout/patient_detail_fragment" >
+        tools:layout="@layout/patient_detail_fragment">
         <argument
             android:name="patient"
             app:argType="mx.nutritivalabs.nutritivapp.patient.Patient" />
