@@ -5,9 +5,5 @@ import mx.nutritivalabs.nutritivapp.patient.Patient
 
 class AddPatientViewModel : ViewModel() {
 
-    fun addPatient(patient: Patient) {
-
-    }
-
     // TODO: Implement the ViewModel
 }

@@ -7,15 +7,25 @@
     <LinearLayout
         android:id="@+id/rowLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/usericon" />
 
         <TextView
             android:id="@+id/tvPatientName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:autoText="false"
+            android:text="TextView"
+            android:textSize="24sp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

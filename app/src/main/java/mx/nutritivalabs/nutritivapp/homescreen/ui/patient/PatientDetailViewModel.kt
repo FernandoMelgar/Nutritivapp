@@ -1,4 +1,4 @@
-package mx.nutritivalabs.nutritivapp
+package mx.nutritivalabs.nutritivapp.homescreen.ui.patient
 
 import androidx.lifecycle.ViewModel
 

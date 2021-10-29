@@ -49,7 +49,7 @@ class PatientAdapter(var patientArray: ArrayList<Patient>) : RecyclerView.Adapte
         private val tvName = view.findViewById<TextView>(R.id.tvPatientName)
 
         fun set(patient: Patient){
-            tvName.setText(patient.firstName)
+            tvName.setText(patient.fullName)
         }
     }
 

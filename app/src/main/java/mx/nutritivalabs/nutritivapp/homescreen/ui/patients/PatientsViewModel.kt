@@ -7,17 +7,14 @@ import mx.nutritivalabs.nutritivapp.patient.Patient
 
 class PatientsViewModel : ViewModel() {
 
-    val patientsList = MutableLiveData<ArrayList<Patient>>()
+    val patientsList = ArrayList<Patient>()
+    val patientsListLive = MutableLiveData<ArrayList<Patient>>()
 
-    fun updatePatientsList(){
-        var patientsArr : ArrayList<Patient> = arrayListOf()
-        val patient = Patient(0, "hola", "como", "estas")
-        val patient2 = Patient(1, "hola", "como", "estas")
-        patientsArr.add(patient)
-        patientsArr.add(patient2)
-
-        patientsList.value = patientsArr
-
+    fun updatePatientsList(patient: Patient?){
+        if (patient != null) {
+            patientsList.add(patient)
+            patientsListLive.value = patientsList
+        }
     }
 
 }
