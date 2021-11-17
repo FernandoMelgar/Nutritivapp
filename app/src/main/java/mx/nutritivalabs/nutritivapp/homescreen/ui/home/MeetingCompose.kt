@@ -21,89 +21,111 @@ import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.Screen
 
 @Composable
-fun MeetingDetailScreen(meetingId: Long?, navController: NavHostController) {
+fun MeetingScreenDetail(
+    meetingId: Long?, navController: NavHostController
+) {
     val scrollState = rememberScrollState()
     Column(
         Modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            IconButton(onClick = { navController.navigate(Screen.ScheduleScreen.route) }) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = null)
-            }
-            Text("17 Noviembre 2021")
-        }
+        UpperBar(navController)
         Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            "Paciente",
-            style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.primary,
-            modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
-        )
-        Row(Modifier.fillMaxWidth()) {
-            Box(
-                Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(.5f)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.userlilly),
-                    contentDescription = null
-                )
-            }
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.height(220.dp)
-            ) {
-                Text("Nombre: Alison Brie")
-                Spacer(modifier = Modifier.height(12.dp))
-                Text("Meeting id: $meetingId")
-                Text("Vegan")
-            }
-        }
-        Text(
-            "Información general",
-            style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.primary,
-            modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
-        )
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(400.dp)
-                .border(
-                    1.5.dp,
-                    MaterialTheme.colors.secondary,
-                    RoundedCornerShape(8.dp)
-                )
-        ) {
-            Text("Pequeñas notas sobre la última sesión")
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(
-                onClick = { },
-            ) {
-                Text("Mensaje", color = MaterialTheme.colors.onSecondary)
-            }
-            Button(onClick = { }) {
-                Text("Llamar", color = MaterialTheme.colors.onSecondary)
-            }
-        }
+        PatientGeneralInfo(meetingId)
+        LastSessionInfo()
+        GettingInContact()
         Spacer(modifier = Modifier.height(120.dp))
+    }
+}
+
+@Composable
+private fun GettingInContact() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Button(
+            onClick = { },
+        ) {
+            Text("Mensaje", color = MaterialTheme.colors.onSecondary)
+        }
+        Button(onClick = { }) {
+            Text("Llamar", color = MaterialTheme.colors.onSecondary)
+        }
+    }
+}
+
+@Composable
+private fun LastSessionInfo() {
+    Text(
+        "Información general",
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+    )
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .height(400.dp)
+            .border(
+                1.5.dp,
+                MaterialTheme.colors.secondary,
+                RoundedCornerShape(8.dp)
+            )
+    ) {
+        Text("Pequeñas notas sobre la última sesión")
+    }
+}
+
+@Composable
+private fun PatientGeneralInfo(meetingId: Long?) {
+    Text(
+        "Paciente",
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+    )
+    Row(Modifier.fillMaxWidth()) {
+        Box(
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(.5f)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.userlilly),
+                contentDescription = null
+            )
+        }
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.height(220.dp)
+        ) {
+            Text("Nombre: Alison Brie")
+            Spacer(modifier = Modifier.height(12.dp))
+            Text("Meeting id: $meetingId")
+            Text("Vegan")
+        }
+    }
+}
+
+@Composable
+private fun UpperBar(navController: NavHostController) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        IconButton(onClick = { navController.navigate(Screen.ScheduleScreen.route) }) {
+            Icon(Icons.Filled.ArrowBack, contentDescription = null)
+        }
+        Text("17 Noviembre 2021")
     }
 }
