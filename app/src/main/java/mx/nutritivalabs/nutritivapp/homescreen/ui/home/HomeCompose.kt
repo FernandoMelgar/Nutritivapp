@@ -1,9 +1,7 @@
 package mx.nutritivalabs.nutritivapp.homescreen.ui.home
 
-import android.content.Intent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -11,9 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,23 +18,29 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.Screen
-import mx.nutritivalabs.nutritivapp.homescreen.HomeScreen
-import mx.nutritivalabs.nutritivapp.homescreen.ui.configuration.ConfigurationFragment
 import mx.nutritivalabs.nutritivapp.ui.theme.ButtonBlue
 import mx.nutritivalabs.nutritivapp.ui.theme.LightRed
-import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 import mx.nutritivalabs.nutritivapp.ui.theme.OrangeYellow1
 import java.util.*
 
 @Composable
 fun ScheduleScreen(navController: NavHostController) {
     val scrollState = rememberScrollState()
+    var selectedDay by remember { mutableStateOf(0) }
+
+    val days = mutableListOf<Int>()
+    val c = Calendar.getInstance()
+
+    for (i in c.get(Calendar.DAY_OF_MONTH)..c.getActualMaximum(Calendar.DAY_OF_MONTH))
+        days.add(i)
+
+    val month =
+        c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) ?: "Error"
+
     Box(
         Modifier
             .fillMaxSize()
@@ -47,7 +49,8 @@ fun ScheduleScreen(navController: NavHostController) {
         Column {
             GreetingSection()
             Spacer(modifier = Modifier.height(24.dp))
-            CalendarSection()
+            CalendarSection(days, month) { selectedDay = it }
+            Text(text = selectedDay.toString())
             Spacer(modifier = Modifier.height(24.dp))
             MeetingSection(navController)
             Spacer(modifier = Modifier.height(100.dp))
@@ -57,19 +60,17 @@ fun ScheduleScreen(navController: NavHostController) {
 
 
 @Composable
-fun CalendarSection() {
-    val calendarDays = mutableListOf<String>()
-    for (i in 1..10)
-        calendarDays.add(i.toString())
+fun CalendarSection(days: List<Int>, month: String, onDaySelection: (Int) -> Unit) {
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text("Calendar", fontWeight = FontWeight.Bold)
+        Text(text = month, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(18.dp))
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
-            items(calendarDays) { day ->
+            items(days) { day ->
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -78,9 +79,9 @@ fun CalendarSection() {
                         .clip(CircleShape)
                         .background(MaterialTheme.colors.surface)
                         .border(1.5.dp, MaterialTheme.colors.primary, CircleShape)
-                        .clickable { }
+                        .clickable { onDaySelection(day) }
                 ) {
-                    Text(day, color = MaterialTheme.colors.onSurface)
+                    Text(day.toString(), color = MaterialTheme.colors.onSurface)
                 }
             }
         }
