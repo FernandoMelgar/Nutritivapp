@@ -22,24 +22,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.Screen
-import mx.nutritivalabs.nutritivapp.ui.theme.ButtonBlue
+import mx.nutritivalabs.nutritivapp.compose.MeetingViewModel
+import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.ui.theme.LightRed
-import mx.nutritivalabs.nutritivapp.ui.theme.OrangeYellow1
 import java.util.*
 
 @Composable
-fun ScheduleScreen(navController: NavHostController) {
+fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingViewModel) {
     val scrollState = rememberScrollState()
-    var selectedDay by remember { mutableStateOf(0) }
 
-    val days = mutableListOf<Int>()
-    val c = Calendar.getInstance()
+    val selectedDate = Calendar.getInstance()
+    var selectedDay by remember { mutableStateOf(selectedDate.get(Calendar.DAY_OF_MONTH)) }
+    selectedDate.set(Calendar.DAY_OF_YEAR, selectedDay)
 
-    for (i in c.get(Calendar.DAY_OF_MONTH)..c.getActualMaximum(Calendar.DAY_OF_MONTH))
-        days.add(i)
+    val meetings = meetingViewModel.findMeetings(selectedDate.time, 1)
 
-    val month =
-        c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) ?: "Error"
 
     Box(
         Modifier
@@ -49,10 +46,10 @@ fun ScheduleScreen(navController: NavHostController) {
         Column {
             GreetingSection()
             Spacer(modifier = Modifier.height(24.dp))
-            CalendarSection(days, month) { selectedDay = it }
+            CalendarSection { selectedDay = it }
             Text(text = selectedDay.toString())
             Spacer(modifier = Modifier.height(24.dp))
-            MeetingSection(navController)
+            MeetingSection(navController, meetings)
             Spacer(modifier = Modifier.height(100.dp))
         }
     }
@@ -60,8 +57,13 @@ fun ScheduleScreen(navController: NavHostController) {
 
 
 @Composable
-fun CalendarSection(days: List<Int>, month: String, onDaySelection: (Int) -> Unit) {
-
+fun CalendarSection(onDaySelection: (Int) -> Unit) {
+    val days = mutableListOf<Int>()
+    val c = Calendar.getInstance()
+    for (i in c.get(Calendar.DAY_OF_MONTH)..c.getActualMaximum(Calendar.DAY_OF_MONTH))
+        days.add(i)
+    val month =
+        c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) ?: "Error"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -172,30 +174,30 @@ fun MeetingChip(
     }
 }
 
+data class MeetingDetail(
+    val id: Long,
+    val patientName: String,
+    val startTime: String,
+    val endTime: String
+)
+
+fun getTestsMeetings(day: Int, month: Int): List<Meeting> {
+    val viewModel = MeetingViewModel()
+    val calendar = Calendar.getInstance()
+    calendar.set(2021, month, day)
+    return viewModel.findMeetings(calendar.time, 1)
+
+}
 
 @Composable
-fun MeetingSection(navController: NavHostController) {
-    MeetingChip(
-        patientName = "Rubén Villalpando",
-        desc = "17:00 hrs - 17:40 hrs",
-        height = 200,
-        color = LightRed,
-        onClick = { navController.navigate(Screen.Meeting.withId(1)) }
-    )
-//    Spacer(modifier = Modifier.height(12.dp))
-    MeetingChip(
-        patientName = "Arturo Marquez",
-        desc = "18:00 hrs - 18:50 hrs",
-        height = 100,
-        color = ButtonBlue,
-        onClick = { navController.navigate(Screen.Meeting.withId(2)) }
-    )
-//    Spacer(modifier = Modifier.height(12.dp))
-    MeetingChip(
-        patientName = "Víctor Sánchez",
-        desc = "19:00 hrs - 19:50 hrs",
-        height = 100,
-        color = OrangeYellow1,
-        onClick = { navController.navigate(Screen.Meeting.withId(3)) }
-    )
+fun MeetingSection(navController: NavHostController, meetings: List<Meeting>) {
+    for (meet in meetings) {
+        MeetingChip(
+            patientName = meet.patientName,
+            desc = "${meet.date}: ${meet.startTime} - ${meet.endTime}",
+            height = 200,
+            color = LightRed,
+            onClick = { navController.navigate(Screen.Meeting.withId(1)) }
+        )
+    }
 }

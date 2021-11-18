@@ -61,7 +61,7 @@ fun App() {
                 startDestination = NavigationItem.Schedule.route
             ) {
                 composable(route = NavigationItem.Schedule.route) {
-                    ScheduleScreen(navController)
+                    ScheduleScreen(navController, MeetingViewModel())
                 }
                 composable(route = NavigationItem.Patients.route) {
                     PatientsScreen()
