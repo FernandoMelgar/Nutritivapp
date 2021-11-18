@@ -31,12 +31,10 @@ import java.util.*
 fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingViewModel) {
     val scrollState = rememberScrollState()
 
-    val selectedDate = Calendar.getInstance()
-    var selectedDay by remember { mutableStateOf(selectedDate.get(Calendar.DAY_OF_MONTH)) }
-    selectedDate.set(Calendar.DAY_OF_YEAR, selectedDay)
-
-    val meetings = meetingViewModel.findMeetings(selectedDate.time, 1)
-
+    val calendar = Calendar.getInstance()
+    var selectedDay by remember { mutableStateOf(calendar.get(Calendar.DAY_OF_MONTH)) }
+    calendar.set(Calendar.DAY_OF_YEAR, selectedDay)
+    val meetings = meetingViewModel.findMeetings(calendar.time, 1)
 
     Box(
         Modifier
@@ -47,7 +45,6 @@ fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingVi
             GreetingSection()
             Spacer(modifier = Modifier.height(24.dp))
             CalendarSection { selectedDay = it }
-            Text(text = selectedDay.toString())
             Spacer(modifier = Modifier.height(24.dp))
             MeetingSection(navController, meetings)
             Spacer(modifier = Modifier.height(100.dp))
@@ -174,20 +171,6 @@ fun MeetingChip(
     }
 }
 
-data class MeetingDetail(
-    val id: Long,
-    val patientName: String,
-    val startTime: String,
-    val endTime: String
-)
-
-fun getTestsMeetings(day: Int, month: Int): List<Meeting> {
-    val viewModel = MeetingViewModel()
-    val calendar = Calendar.getInstance()
-    calendar.set(2021, month, day)
-    return viewModel.findMeetings(calendar.time, 1)
-
-}
 
 @Composable
 fun MeetingSection(navController: NavHostController, meetings: List<Meeting>) {
