@@ -11,8 +11,8 @@ data class Meeting(
     val endTime: Int
 )
 
-private fun usage() {
-    Meeting(
+fun meetingExample(): Meeting {
+    return Meeting(
         id = 1,
         date = Calendar.getInstance().time,
         patientId = 2,

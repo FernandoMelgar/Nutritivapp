@@ -5,6 +5,7 @@ import java.util.*
 
 interface MeetingRepository {
     fun findMeetings(date: Date, nutritionistId: Long): List<Meeting>
+    fun findMeeting(meetingId: Long)
 }
 
 class MeetingOnMemoryRepository : MeetingRepository {
@@ -38,5 +39,9 @@ class MeetingOnMemoryRepository : MeetingRepository {
 
 
         )
+    }
+
+    override fun findMeeting(meetingId: Long) {
+        TODO("Not yet implemented")
     }
 }

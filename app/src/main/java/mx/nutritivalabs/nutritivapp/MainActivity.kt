@@ -3,20 +3,23 @@ package mx.nutritivalabs.nutritivapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import coil.compose.rememberImagePainter
 import mx.nutritivalabs.nutritivapp.compose.*
-import mx.nutritivalabs.nutritivapp.homescreen.ui.home.MeetingScreenDetail
-import mx.nutritivalabs.nutritivapp.homescreen.ui.home.ScheduleScreen
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 
 class MainActivity : ComponentActivity() {
@@ -70,14 +73,25 @@ fun App() {
                     SettingsScreen()
                 }
                 composable(Screen.Meeting.route, arguments =
-                    listOf(
-                        navArgument("id") {
+                listOf(
+                    navArgument("id") {
                         type = NavType.LongType
                     }
                 )) {
                     val id = it.arguments?.getLong("id")
-                    MeetingScreenDetail(id, navController)
+                    MeetingScreen(
+                        { navController.navigate(NavigationItem.Patient.withId(id!!)) })
+
                 }
+                composable(NavigationItem.Patient.route, arguments = listOf(
+                    navArgument("id") {
+                        type = NavType.LongType
+                    }
+                )) {
+                    val id = it.arguments?.getLong("id")
+                    PatientScreen(viewModel = PatientViewModel(), patientId = id!!)
+                }
+
 
             }
         }

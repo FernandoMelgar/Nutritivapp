@@ -18,6 +18,11 @@ sealed class NavigationItem(val route: String, val icon: ImageVector, val title:
     object Schedule : NavigationItem("schedule-screen", Icons.Filled.Home, "Schedule")
     object Patients : NavigationItem("patients-screen", Icons.Filled.Person, "Patients")
     object Settings : NavigationItem("settings-screen", Icons.Filled.Settings, "Settings")
+    object Patient: NavigationItem("patients/{id}",Icons.Filled.Person, "Patient") {
+        fun withId(id: Long): String {
+            return this.route.replace("{id}", id.toString())
+        }
+    }
 }
 
 @Composable

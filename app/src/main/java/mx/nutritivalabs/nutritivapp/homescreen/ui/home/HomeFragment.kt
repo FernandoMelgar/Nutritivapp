@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import mx.nutritivalabs.nutritivapp.Screen
 import mx.nutritivalabs.nutritivapp.compose.MeetingViewModel
+import mx.nutritivalabs.nutritivapp.compose.ScheduleScreen
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 
 class HomeFragment : Fragment() {
@@ -26,24 +27,6 @@ class HomeFragment : Fragment() {
             setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 NutritivappTheme() {
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = "schedule"
-                    ) {
-                        composable(Screen.ScheduleScreen.route) {
-                            ScheduleScreen(navController, MeetingViewModel())
-                        }
-                        composable(Screen.Meeting.route, arguments =
-                        listOf(
-                            navArgument("id") {
-                                type = NavType.LongType
-                            }
-                        )) {
-                            val id = it.arguments?.getLong("id")
-                            MeetingScreenDetail(id, navController)
-                        }
-                    }
                 }
             }
 
