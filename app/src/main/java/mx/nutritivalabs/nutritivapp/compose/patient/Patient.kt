@@ -6,9 +6,9 @@ import java.util.*
 
 data class Patient(
     var id: Int = 0,
-    var firstName: String,
-    val paternalLastName: String?,
-    val maternalLastName: String?,
+    var firstName: String = "",
+    val paternalLastName: String? = "",
+    val maternalLastName: String? = "",
     val memberSince: Date? = null,
     val birthDate: Date? = null,
     val energyRequirements: EnergyRequirements? = null,
@@ -17,7 +17,7 @@ data class Patient(
     val email: String? = null,
     val phoneNumber: String? = null,
     val profilePictureURL: String = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-) : Serializable {
+) {
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"
 

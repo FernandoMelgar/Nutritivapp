@@ -9,14 +9,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dagger.hilt.android.AndroidEntryPoint
 import mx.nutritivalabs.nutritivapp.compose.*
+import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
+import mx.nutritivalabs.nutritivapp.compose.patient.PatientsScreen
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +36,7 @@ fun App() {
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
     val meetingViewModel = MeetingViewModel()
-    val patientViewModel = PatientViewModel()
+    val patientViewModel: PatientViewModel = hiltViewModel()
 
     NutritivappTheme() {
         Scaffold(
@@ -98,7 +102,7 @@ fun App() {
                     }
                 )) {
                     val id = it.arguments?.getLong("id")
-                    PatientScreen(viewModel = PatientViewModel(), patientId = id!!)
+                    PatientScreen(viewModel = hiltViewModel(), patientId = id!!)
                 }
 
 

@@ -188,15 +188,6 @@ fun MeetingSection(navController: NavHostController, meetings: List<Meeting>) {
     }
 }
 
-
-
-
-
-@Composable
-fun PatientsScreen() {
-    Text("Patients screen")
-}
-
 @Composable
 fun SettingsScreen() {
     Text("Settings screen")

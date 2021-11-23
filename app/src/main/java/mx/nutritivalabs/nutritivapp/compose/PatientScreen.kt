@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 import mx.nutritivalabs.nutritivapp.ui.theme.black
 

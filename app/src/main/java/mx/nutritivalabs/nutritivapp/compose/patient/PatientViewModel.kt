@@ -1,12 +1,31 @@
-package mx.nutritivalabs.nutritivapp.compose;
+package mx.nutritivalabs.nutritivapp.compose.patient;
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import mx.nutritivalabs.nutritivapp.patient.Patient
 import mx.nutritivalabs.nutritivapp.patient.exampleEnergyRequirements
 import mx.nutritivalabs.nutritivapp.patient.examplePatient
 import java.util.*
+import javax.inject.Inject
 
-class PatientViewModel: ViewModel() {
+@HiltViewModel
+class PatientViewModel
+@Inject
+constructor(
+    private val patientRepository: PatientRepository
+) : ViewModel() {
+
+    private val _state: MutableState<PatientDetailState> = mutableStateOf(PatientDetailState())
+    val state: State<PatientDetailState>
+        get() = _state
+
+    fun addNewPatient(patient: Patient) {
+        patientRepository.addNewPatient(examplePatient())
+    }
+
 
     fun findById(id: Long): Patient {
         if (id == 1L)
