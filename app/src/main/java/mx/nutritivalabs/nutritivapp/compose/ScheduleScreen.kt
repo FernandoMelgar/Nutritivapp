@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.nutritivalabs.nutritivapp.R
-import mx.nutritivalabs.nutritivapp.Screen
 import mx.nutritivalabs.nutritivapp.compose.MeetingViewModel
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.ui.theme.LightRed
@@ -184,7 +183,7 @@ fun MeetingSection(navController: NavHostController, meetings: List<Meeting>) {
             desc = "${meet.date}: ${meet.startTime} - ${meet.endTime}",
             height = 200,
             color = LightRed,
-            onClick = { navController.navigate(Screen.Meeting.withId(1)) }
+            onClick = { navController.navigate(NavigationItem.Meeting.withId(meet.id!!)) }
         )
     }
 }

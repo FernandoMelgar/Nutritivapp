@@ -40,10 +40,7 @@ fun PatientScreen(viewModel: PatientViewModel, patientId: Long) {
             "Requerimientos energéticos",
             mockEnergyRequirementsData()
         )
-        DisplayInfoSection(
-            "Datos antropométricos",
-            mockAnthropometricData()
-        )
+        DisplayInfoSection("Datos antropométricos", mockAnthropometricData())
         DisplayInfoSection(
             "Datos Clínicos",
             mockClinicData()
@@ -64,32 +61,6 @@ fun PatientScreen(viewModel: PatientViewModel, patientId: Long) {
 
 
 
-@Composable
-fun DisplayInfoSection(title: String, data: Map<String, String>) {
-    Surface(
-        modifier = Modifier.padding(16.dp),
-        color = MaterialTheme.colors.surface,
-        contentColor = MaterialTheme.colors.onSurface,
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 16.dp)
-        ) {
-            Text(
-                text = title,
-                modifier = Modifier.padding(bottom = 16.dp),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-            for ((key, value) in data) {
-                InfoChip(title = key, value)
-            }
-        }
-    }
-
-}
 
 @Composable
 fun InfoChip(title: String, body: String) {
@@ -141,7 +112,7 @@ fun GeneralInfoPreview() {
 }
 
 
-@Preview
+
 @Composable
 fun InfoChipPreview() {
     NutritivappTheme() {

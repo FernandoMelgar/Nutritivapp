@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,11 @@ sealed class NavigationItem(val route: String, val icon: ImageVector, val title:
     object Patients : NavigationItem("patients-screen", Icons.Filled.Person, "Patients")
     object Settings : NavigationItem("settings-screen", Icons.Filled.Settings, "Settings")
     object Patient: NavigationItem("patients/{id}",Icons.Filled.Person, "Patient") {
+        fun withId(id: Long): String {
+            return this.route.replace("{id}", id.toString())
+        }
+    }
+    object Meeting: NavigationItem("meetings/{id}", Icons.Filled.ThumbUp, "Meetings"){
         fun withId(id: Long): String {
             return this.route.replace("{id}", id.toString())
         }

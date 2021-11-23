@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 
@@ -84,4 +86,33 @@ fun PatientInfoChip(imgUrl: String, fullName: String, patientSince: String) {
             }
         }
     }
+}
+
+
+@Composable
+fun DisplayInfoSection(title: String, data: Map<String, String>) {
+    Surface(
+        modifier = Modifier.padding(16.dp),
+        color = MaterialTheme.colors.surface,
+        contentColor = MaterialTheme.colors.onSurface,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 16.dp)
+        ) {
+            Text(
+                text = title,
+                modifier = Modifier.padding(bottom = 16.dp),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.secondary
+            )
+            for ((key, value) in data) {
+                InfoChip(title = key, value)
+            }
+        }
+    }
+
 }

@@ -12,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import mx.nutritivalabs.nutritivapp.Screen
 import mx.nutritivalabs.nutritivapp.compose.MeetingViewModel
 import mx.nutritivalabs.nutritivapp.compose.ScheduleScreen
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme

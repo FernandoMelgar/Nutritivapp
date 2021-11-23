@@ -8,16 +8,7 @@ data class Meeting(
     val patientId: Long? = null,
     val patientName: String,
     val startTime: Int,
-    val endTime: Int
+    val endTime: Int,
+    val notes: String,
+    val meetingInfo: Map<String, String>
 )
-
-fun meetingExample(): Meeting {
-    return Meeting(
-        id = 1,
-        date = Calendar.getInstance().time,
-        patientId = 2,
-        patientName = "Fernando Melgar",
-        startTime = 1700,
-        endTime = 1750
-    )
-}
