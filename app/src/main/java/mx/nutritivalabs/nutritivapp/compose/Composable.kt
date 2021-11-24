@@ -90,7 +90,7 @@ fun PatientInfoChip(imgUrl: String, fullName: String, patientSince: String) {
 
 
 @Composable
-fun DisplayInfoSection(title: String, data: Map<String, String>) {
+fun DisplayInfoSection(title: String, data: Map<String, Any>) {
     Surface(
         modifier = Modifier.padding(16.dp),
         color = MaterialTheme.colors.surface,
@@ -110,7 +110,7 @@ fun DisplayInfoSection(title: String, data: Map<String, String>) {
                 color = MaterialTheme.colors.secondary
             )
             for ((key, value) in data) {
-                InfoChip(title = key, value)
+                InfoChip(title = key, value.toString())
             }
         }
     }

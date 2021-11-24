@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import mx.nutritivalabs.nutritivapp.asDate
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import java.util.*
 
@@ -48,22 +49,27 @@ constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun findByID(id: String): Meeting {
-        return Meeting(
-            id = id,
-            date = Calendar.getInstance().time,
-            patientId = id,
-            startTime = "17:00",
-            endTime = "16:00",
-            notes = "TODO",
-            patientName = "TODO",
-            meetingInfo = mapOf("TODO" to "TODO")
-        )
+    fun findByID(id: String) {
+        meetingRepository.findById(id).onEach { result ->
+            when(result) {
+                is Result.Error -> {
+                    _state.value = MeetingDetailState(error = result.message  ?: "Error inesperado" )
+                }
+                is Result.Loading -> {
+                    _state.value = MeetingDetailState(isLoading = true)
+                }
+                is Result.Success -> {
+                    _state.value = MeetingDetailState(meeting = result.data ?: emptyMeeting())
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun findLastTen(patientId: String): List<Meeting> {
         return listOf()
     }
+}
 
-
+fun emptyMeeting(): Meeting {
+    return Meeting("","01/01/2021".asDate()!!,"","","","","", mapOf())
 }

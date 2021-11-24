@@ -11,7 +11,7 @@ data class Meeting(
     val startTime: String,
     val endTime: String,
     val notes: String,
-    val meetingInfo: Map<String, String>
+    val meetingInfo: Map<String, Any>
 ) {
     val dateAsString: String
         get() = this.date.simpleDateFormat()

@@ -20,8 +20,8 @@ sealed class NavigationItem(val route: String, val icon: ImageVector, val title:
     object Patients : NavigationItem("patients-screen", Icons.Filled.Person, "Patients")
     object Settings : NavigationItem("settings-screen", Icons.Filled.Settings, "Settings")
     object Patient: NavigationItem("patients/{id}",Icons.Filled.Person, "Patient") {
-        fun withId(id: Long): String {
-            return this.route.replace("{id}", id.toString())
+        fun withId(id: String): String {
+            return this.route.replace("{id}", id)
         }
     }
     object Meeting: NavigationItem("meetings/{id}", Icons.Filled.ThumbUp, "Meetings"){

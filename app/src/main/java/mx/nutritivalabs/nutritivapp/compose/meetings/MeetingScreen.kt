@@ -15,9 +15,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingViewModel
 import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.patient.Patient
+import mx.nutritivalabs.nutritivapp.patient.examplePatient
 import mx.nutritivalabs.nutritivapp.simpleDateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,14 +27,14 @@ import java.util.*
 
 @Composable
 fun MeetingScreen(
-    onPatientInfo: () -> Unit,
     navController: NavController,
-    meeting: Meeting,
-    lastTenMeetings: List<Meeting>,
-    patient: Patient
+    meetingViewModel: MeetingViewModel,
+    onPatientInfo: (String) -> Unit,
+    meetingId: String
 ) {
     val scrollState = rememberScrollState()
-
+    val state = meetingViewModel.state.value
+    val patient = examplePatient()
 
     Column(
         Modifier
@@ -40,8 +42,12 @@ fun MeetingScreen(
             .verticalScroll(scrollState)
     ) {
         UpperBar(title = "Cita")
-
-        Box(Modifier.clickable { onPatientInfo() }) {
+        Button(onClick = {
+            meetingViewModel.findByID(meetingId)
+        }) {
+            Text("Refresh")
+        }
+        Box(Modifier.clickable { onPatientInfo(patient.id.toString()) }) {
             PatientInfoChip(
                 patient.profilePictureURL,
                 patient.fullName,
@@ -49,8 +55,12 @@ fun MeetingScreen(
             )
 
         }
-        DisplayInfoSection(title = "Información de la reunión", data = meeting.meetingInfo)
-        HistorialDeReuniones(navController, lastTenMeetings, meeting.id!!)
+        if (state.meeting == null) {
+            Text("Error al hacer fetch de los datos")
+        } else {
+            DisplayInfoSection(title = "Información de la reunión", data = state.meeting.meetingInfo)
+            HistorialDeReuniones(navController, listOf(), state.meeting.id!!)
+        }
         Spacer(Modifier.height(120.dp))
 
     }

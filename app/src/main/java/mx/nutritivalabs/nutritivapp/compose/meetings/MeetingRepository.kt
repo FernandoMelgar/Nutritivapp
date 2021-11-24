@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import mx.nutritivalabs.nutritivapp.asDate
 import mx.nutritivalabs.nutritivapp.domain.Meeting
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.*
 
 
@@ -44,4 +47,43 @@ class MeetingRepository(
         }
     }
 
+    fun findById(id: String) = flow {
+        try {
+            emit(Result.Loading())
+            val meeting = meetingRef.document(id).get().await().let { meeting ->
+
+                val json = JSONObject(meeting.get("meetingInfo").toString())
+                val meetingInfo = json.toMap()
+                Meeting(
+                    id = meeting.get("id").toString(),
+                    date = meeting.get("dateAsString").toString().asDate()!!,
+                    patientId = "1",
+                    patientName = meeting.get("patientName").toString(),
+                    startTime = meeting.get("startTime").toString(),
+                    endTime = meeting.get("endTime").toString(),
+                    notes = meeting.get("date").toString(),
+                    meetingInfo = meetingInfo as Map<String, Any>
+                )
+            }
+            emit(Result.Success(data = meeting))
+        } catch (e: Exception) {
+            emit(Result.Error(message = e.localizedMessage ?: "Error desconocido"))
+        }
+    }
+
+
+}
+
+fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
+    when (val value = this[it])
+    {
+        is JSONArray ->
+        {
+            val map = (0 until value.length()).associate { Pair(it.toString(), value[it].toString()) }
+            JSONObject(map).toMap().values.toList()
+        }
+        is JSONObject -> value.toMap()
+        JSONObject.NULL -> null
+        else            -> value
+    }
 }
