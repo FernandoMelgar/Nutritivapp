@@ -66,7 +66,8 @@ fun ScheduleScreen(
                     navController.navigate(
                         NavigationItem.Meeting.withId(
                             meetingId
-                        ))
+                        )
+                    )
                 }
             )
             Spacer(modifier = Modifier.height(100.dp))
@@ -74,9 +75,6 @@ fun ScheduleScreen(
         }
     }
 }
-
-
-
 
 
 @Composable
@@ -88,29 +86,36 @@ fun CalendarSection(onDaySelection: (Int) -> Unit) {
     val month =
         c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) ?: "Error"
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+    Surface(
+        modifier = Modifier.padding(16.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        Text(text = month, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(18.dp))
-        LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
-            items(days) { day ->
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .padding(start = 12.dp)
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colors.surface)
-                        .border(1.5.dp, MaterialTheme.colors.primary, CircleShape)
-                        .clickable { onDaySelection(day) }
-                ) {
-                    Text(day.toString(), color = MaterialTheme.colors.onSurface)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = month, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(18.dp))
+            LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
+                items(days) { day ->
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .padding(start = 12.dp)
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colors.surface)
+                            .border(1.5.dp, MaterialTheme.colors.primary, CircleShape)
+                            .clickable { onDaySelection(day) }
+                    ) {
+                        Text(day.toString(), color = MaterialTheme.colors.onSurface)
+                    }
                 }
             }
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
+
 
 }
 
