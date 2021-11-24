@@ -1,7 +1,7 @@
-package mx.nutritivalabs.nutritivapp.compose.meetings
+package mx.nutritivalabs.nutritivapp.compose.meetings.states
 
+import mx.nutritivalabs.nutritivapp.compose.meetings.emptyMeeting
 import mx.nutritivalabs.nutritivapp.domain.Meeting
-import mx.nutritivalabs.nutritivapp.patient.Patient
 
 data class MeetingDetailState(
     val isLoading: Boolean = false,

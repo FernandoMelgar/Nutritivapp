@@ -76,6 +76,7 @@ fun App() {
                 startDestination = NavigationItem.Schedule.route
             ) {
                 composable(route = NavigationItem.Schedule.route) {
+                    meetingViewModel.findMeetings(Calendar.getInstance().time, 1)
                     ScheduleScreen(
                         navController,
                         meetingViewModel
@@ -94,26 +95,28 @@ fun App() {
                     }
                 )) {
                     val id = it.arguments?.getString("id")
+                    meetingViewModel.findByID(id!!)
                     MeetingScreen(
                         onPatientInfo = { idPatient ->
                             navController.navigate(
-                                NavigationItem.Patient.withId(idPatient))
+                                NavigationItem.Patient.withId(idPatient)
+                            )
                         },
-                        navController = navController, meetingViewModel = meetingViewModel, meetingId = id!!
+                        navController = navController, meetingViewModel = meetingViewModel
                     )
 
                 }
                 composable(NavigationItem.Patient.route, arguments = listOf(
                     navArgument("id") {
-                        type = NavType.LongType
+                        type = NavType.StringType
                     }
                 )) {
-                    val id = it.arguments?.getLong("id")
+                    val id = it.arguments?.getString("id")
                     PatientScreen(viewModel = patientViewModel, patientId = id!!)
                 }
 
                 composable(NavigationItem.CreateMeeting.route) {
-                    CreateMeetingScreen({ meetingViewModel.addNewMeeting(it) })
+                    CreateMeetingScreen(navController, meetingViewModel)
                 }
 
             }

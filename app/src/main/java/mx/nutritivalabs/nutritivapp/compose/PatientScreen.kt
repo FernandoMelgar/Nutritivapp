@@ -21,8 +21,8 @@ import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 import mx.nutritivalabs.nutritivapp.ui.theme.black
 
 @Composable
-fun PatientScreen(viewModel: PatientViewModel, patientId: Long) {
-    val patient = viewModel.findById(patientId.toString())
+fun PatientScreen(viewModel: PatientViewModel, patientId: String) {
+    val patient = viewModel.findById(patientId)
     val scrollState = rememberScrollState()
 
 

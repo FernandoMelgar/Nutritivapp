@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mx.nutritivalabs.nutritivapp.asDate
+import mx.nutritivalabs.nutritivapp.compose.meetings.states.MeetingDetailState
+import mx.nutritivalabs.nutritivapp.compose.meetings.states.MeetingListDetailState
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import java.util.*
 

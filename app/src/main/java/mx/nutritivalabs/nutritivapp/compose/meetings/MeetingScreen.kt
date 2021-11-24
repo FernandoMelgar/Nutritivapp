@@ -30,7 +30,6 @@ fun MeetingScreen(
     navController: NavController,
     meetingViewModel: MeetingViewModel,
     onPatientInfo: (String) -> Unit,
-    meetingId: String
 ) {
     val scrollState = rememberScrollState()
     val state = meetingViewModel.state.value
@@ -42,11 +41,6 @@ fun MeetingScreen(
             .verticalScroll(scrollState)
     ) {
         UpperBar(title = "Cita")
-        Button(onClick = {
-            meetingViewModel.findByID(meetingId)
-        }) {
-            Text("Refresh")
-        }
         Box(Modifier.clickable { onPatientInfo(patient.id.toString()) }) {
             PatientInfoChip(
                 patient.profilePictureURL,

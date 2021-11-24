@@ -43,7 +43,7 @@ constructor(
 
 private fun vicPatient(): Patient {
     return Patient(
-        id = 1,
+        id = UUID.randomUUID().toString(),
         firstName = "Víctor",
         paternalLastName = "Sánchez",
         maternalLastName = " ",
@@ -59,7 +59,7 @@ private fun vicPatient(): Patient {
 }
 
 private fun arthurPatient() = Patient(
-    id = 1,
+    id = UUID.randomUUID().toString(),
     firstName = "Arturo",
     paternalLastName = "Marquez",
     maternalLastName = " ",
@@ -75,7 +75,7 @@ private fun arthurPatient() = Patient(
 
 private fun rubenPatient(): Patient {
     return Patient(
-        id = 1,
+        id = UUID.randomUUID().toString(),
         firstName = "Rubén",
         paternalLastName = "Villalapando",
         maternalLastName = "Bremmont",

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.asDate
-import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingListDetailState
 import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingViewModel
 import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
 import mx.nutritivalabs.nutritivapp.domain.Meeting

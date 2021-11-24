@@ -1,25 +1,29 @@
 package mx.nutritivalabs.nutritivapp.compose
 
+import androidx.compose.ui.geometry.Size
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import coil.compose.rememberImagePainter
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 
@@ -111,6 +115,60 @@ fun DisplayInfoSection(title: String, data: Map<String, Any>) {
             )
             for ((key, value) in data) {
                 InfoChip(title = key, value.toString())
+            }
+        }
+    }
+
+}
+
+@Composable
+fun CustomDropdownMenu(
+    options: List<String>,
+    onSelected: (String) -> Unit,
+    label: String,
+    value: String
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    var textfieldSize by remember { mutableStateOf(Size.Zero) }
+
+    val icon = if (expanded)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+
+
+    Column {
+        OutlinedTextField(
+            value = value,
+            onValueChange = {
+                onSelected(it)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    //This value is used to assign to the DropDown the same width
+                    textfieldSize = coordinates.size.toSize()
+                },
+            label = { Text(label) },
+            trailingIcon = {
+                Icon(icon, "contentDescription",
+                    Modifier.clickable { expanded = !expanded })
+            }
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
+        ) {
+            options.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    onSelected(label)
+                    expanded = false
+                }) {
+                    Text(text = label)
+                }
             }
         }
     }

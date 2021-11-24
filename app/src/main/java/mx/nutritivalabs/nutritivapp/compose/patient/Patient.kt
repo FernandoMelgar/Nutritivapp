@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.util.*
 
 data class Patient(
-    var id: Int = 0,
+    var id: String? = null,
     var firstName: String = "",
     val paternalLastName: String? = "",
     val maternalLastName: String? = "",
@@ -25,7 +25,7 @@ data class Patient(
 
 fun examplePatient(): Patient {
     return Patient(
-        id = 1,
+        id = UUID.randomUUID().toString(),
         firstName = "Fernando Manuel",
         paternalLastName = "Melgar",
         maternalLastName = "Fuentes",

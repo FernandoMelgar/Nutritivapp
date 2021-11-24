@@ -15,18 +15,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import mx.nutritivalabs.nutritivapp.asDate
+import mx.nutritivalabs.nutritivapp.compose.CustomDropdownMenu
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.simpleFormat
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CreateMeetingScreen(onCreateMeeting: (Meeting) -> Unit) {
+fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingViewModel) {
     var patientId by remember { mutableStateOf("") }
     var selectedDate by remember { mutableStateOf("") }
     var start by remember { mutableStateOf("") }
@@ -55,12 +57,11 @@ fun CreateMeetingScreen(onCreateMeeting: (Meeting) -> Unit) {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.secondary
             )
-            OutlinedTextField(
-                value = patientId,
-                onValueChange = { patientId = it },
-                label = { Text("Id paciente") },
-                modifier = Modifier.width(150.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            CustomDropdownMenu(
+                listOf("22276bec-0d5c-4a11-aafc-64848e21866d"),
+                {patientId = it},
+                "Id. Paciente",
+                patientId
             )
 
             OutlinedTextField(
@@ -104,7 +105,7 @@ fun CreateMeetingScreen(onCreateMeeting: (Meeting) -> Unit) {
             }
             Button(
                 onClick = {
-                    onCreateMeeting(
+                    meetingViewModel.addNewMeeting(
                         Meeting(
                             id = UUID.randomUUID().toString(),
                             patientName = "",
