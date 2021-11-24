@@ -15,8 +15,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.patient.Patient
+import mx.nutritivalabs.nutritivapp.simpleDateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,7 +58,7 @@ fun MeetingScreen(
 
 @Composable
 fun HistorialDeReuniones(
-    navController: NavController, meetingHistory: List<Meeting>, currentId: Long
+    navController: NavController, meetingHistory: List<Meeting>, currentId: String
 ) {
 
     Box(
@@ -126,7 +128,3 @@ fun ReunionAnteriorChip(date: Date, notes: String, current: Boolean, onClick: ()
 }
 
 
-fun Date.simpleDateFormat(): String {
-    val formatter = SimpleDateFormat("dd/MM/yyyy")
-    return formatter.format(this)
-}

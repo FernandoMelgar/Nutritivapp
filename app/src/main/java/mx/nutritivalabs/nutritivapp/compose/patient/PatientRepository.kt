@@ -1,15 +1,17 @@
 package mx.nutritivalabs.nutritivapp.compose.patient
 
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import mx.nutritivalabs.nutritivapp.patient.Patient
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+
 class PatientRepository
-@Inject
+
 constructor(
-    private val patientRef: CollectionReference
+    private val patientRef: CollectionReference = Firebase.firestore.collection("patients")
 ) {
 
     fun addNewPatient(patient: Patient) {

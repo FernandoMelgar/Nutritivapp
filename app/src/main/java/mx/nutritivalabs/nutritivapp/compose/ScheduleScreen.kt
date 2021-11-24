@@ -25,7 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.nutritivalabs.nutritivapp.R
-import mx.nutritivalabs.nutritivapp.compose.MeetingViewModel
+import mx.nutritivalabs.nutritivapp.asDate
+import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingListDetailState
+import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingViewModel
+import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.ui.theme.LightRed
 import java.util.*
@@ -33,12 +36,10 @@ import java.util.*
 @Composable
 fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingViewModel) {
     val scrollState = rememberScrollState()
-
     val calendar = Calendar.getInstance()
     var selectedDay by remember { mutableStateOf(calendar.get(Calendar.DAY_OF_MONTH)) }
+    val state = meetingViewModel.stateList.value
     calendar.set(Calendar.DAY_OF_YEAR, selectedDay)
-    val meetings = meetingViewModel.findMeetings(calendar.time, 1)
-
     Box(
         Modifier
             .fillMaxSize()
@@ -47,10 +48,18 @@ fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingVi
         Column {
             GreetingSection()
             Spacer(modifier = Modifier.height(24.dp))
-            CalendarSection { selectedDay = it }
+
+            CalendarSection {
+                meetingViewModel.findMeetings("23/11/2021".asDate()!!, 1)
+                selectedDay = it
+            }
             Spacer(modifier = Modifier.height(24.dp))
-            MeetingSection(navController, meetings)
+            MeetingSection(
+                navController = navController,
+                meetings = state.meetings,
+                onMeetingCreate = { navController.navigate(NavigationItem.CreateMeeting.route) })
             Spacer(modifier = Modifier.height(100.dp))
+
         }
     }
 }
@@ -176,7 +185,13 @@ fun MeetingChip(
 
 
 @Composable
-fun MeetingSection(navController: NavHostController, meetings: List<Meeting>) {
+fun MeetingSection(
+    navController: NavHostController,
+    meetings: List<Meeting>,
+    onMeetingCreate: () -> Unit
+) {
+    if (meetings.isEmpty())
+        Text("No hay citas.")
     for (meet in meetings) {
         MeetingChip(
             patientName = meet.patientName,
@@ -186,6 +201,15 @@ fun MeetingSection(navController: NavHostController, meetings: List<Meeting>) {
             onClick = { navController.navigate(NavigationItem.Meeting.withId(meet.id!!)) }
         )
     }
+
+    Button(
+        onClick = onMeetingCreate, modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp), shape = RoundedCornerShape(8.dp)
+    ) {
+        Text("Nueva cita")
+    }
+
 }
 
 @Composable

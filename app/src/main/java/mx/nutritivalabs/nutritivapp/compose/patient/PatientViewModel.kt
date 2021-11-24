@@ -11,11 +11,10 @@ import mx.nutritivalabs.nutritivapp.patient.examplePatient
 import java.util.*
 import javax.inject.Inject
 
-@HiltViewModel
+
 class PatientViewModel
-@Inject
 constructor(
-    private val patientRepository: PatientRepository
+    private val patientRepository: PatientRepository = PatientRepository()
 ) : ViewModel() {
 
     private val _state: MutableState<PatientDetailState> = mutableStateOf(PatientDetailState())
@@ -23,16 +22,16 @@ constructor(
         get() = _state
 
     fun addNewPatient(patient: Patient) {
-        patientRepository.addNewPatient(examplePatient())
+        patientRepository.addNewPatient(patient)
     }
 
 
-    fun findById(id: Long): Patient {
-        if (id == 1L)
+    fun findById(id: String): Patient {
+        if (id == "1")
             return rubenPatient()
-        if (id == 2L)
+        if (id == "2")
             return arthurPatient()
-        if (id == 3L)
+        if (id == "3")
             return vicPatient()
         else
             return examplePatient().copy(firstName = "$id")

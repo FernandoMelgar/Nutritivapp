@@ -7,13 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import mx.nutritivalabs.nutritivapp.compose.MeetingViewModel
-import mx.nutritivalabs.nutritivapp.compose.ScheduleScreen
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 
 class HomeFragment : Fragment() {

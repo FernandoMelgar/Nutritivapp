@@ -32,6 +32,7 @@ android {
         }
     }
     compileOptions {
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -109,5 +110,7 @@ dependencies {
     // Accompaniest Swipe Refresh
     implementation "com.google.accompanist:accompanist-swiperefresh:0.18.0"
 
+    //Datetime dialogs
+    implementation 'io.github.vanpra.compose-material-dialogs:datetime:0.6.1'
 
 }
