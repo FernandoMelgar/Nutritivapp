@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingViewModel
 import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
+import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.patient.Patient
 import mx.nutritivalabs.nutritivapp.patient.examplePatient
@@ -29,11 +30,12 @@ import java.util.*
 fun MeetingScreen(
     navController: NavController,
     meetingViewModel: MeetingViewModel,
-    onPatientInfo: (String) -> Unit,
+    patientViewModel: PatientViewModel,
+    onPatientInfo: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val state = meetingViewModel.state.value
-    val patient = examplePatient()
+    val patientState = patientViewModel.state.value
 
     Column(
         Modifier
@@ -41,11 +43,11 @@ fun MeetingScreen(
             .verticalScroll(scrollState)
     ) {
         UpperBar(title = "Cita")
-        Box(Modifier.clickable { onPatientInfo(patient.id.toString()) }) {
+        Box(Modifier.clickable { onPatientInfo() }) {
             PatientInfoChip(
-                patient.profilePictureURL,
-                patient.fullName,
-                patient.memberSince.toString()
+                patientState.patient?.profilePictureURL ?: ":cc",
+                patientState.patient?.fullName ?: ":cc",
+                patientState.patient?.memberSince.toString()
             )
 
         }

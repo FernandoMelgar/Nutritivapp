@@ -21,10 +21,9 @@ import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 import mx.nutritivalabs.nutritivapp.ui.theme.black
 
 @Composable
-fun PatientScreen(viewModel: PatientViewModel, patientId: String) {
-    val patient = viewModel.findById(patientId)
+fun PatientScreen(viewModel: PatientViewModel) {
+    val state = viewModel.state.value
     val scrollState = rememberScrollState()
-
 
     Column(
         Modifier
@@ -33,9 +32,9 @@ fun PatientScreen(viewModel: PatientViewModel, patientId: String) {
     ) {
         UpperBar("Paciente")
         PatientInfoChip(
-            patient.profilePictureURL,
-            patient.fullName,
-            patient.memberSince.toString()
+            state.patient?.profilePictureURL ?: "",
+            state.patient?.fullName ?: "",
+            state.patient?.memberSince.toString() ?: ""
         )
         DisplayInfoSection(
             "Requerimientos energéticos",

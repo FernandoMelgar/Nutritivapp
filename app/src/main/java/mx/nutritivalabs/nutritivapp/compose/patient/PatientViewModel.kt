@@ -4,7 +4,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import mx.nutritivalabs.nutritivapp.compose.Result
+import mx.nutritivalabs.nutritivapp.compose.meetings.emptyMeeting
+import mx.nutritivalabs.nutritivapp.compose.meetings.state.MeetingDetailState
 import mx.nutritivalabs.nutritivapp.patient.Patient
 import mx.nutritivalabs.nutritivapp.patient.exampleEnergyRequirements
 import mx.nutritivalabs.nutritivapp.patient.examplePatient
@@ -26,17 +32,21 @@ constructor(
     }
 
 
-    fun findById(id: String): Patient {
-        if (id == "1")
-            return rubenPatient()
-        if (id == "2")
-            return arthurPatient()
-        if (id == "3")
-            return vicPatient()
-        else
-            return examplePatient().copy(firstName = "$id")
+    fun findById(id: String) {
+        patientRepository.findPatientById(id).onEach { result ->
+            when(result) {
+                is Result.Error -> {
+                    _state.value = PatientDetailState(error = result.message  ?: "Error inesperado" )
+                }
+                is Result.Loading -> {
+                    _state.value = PatientDetailState(isLoading = true)
+                }
+                is Result.Success -> {
+                    _state.value = PatientDetailState(patient = result.data)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
-
 }
 
 

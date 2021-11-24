@@ -1,5 +1,6 @@
 package mx.nutritivalabs.nutritivapp.patient
 
+import mx.nutritivalabs.nutritivapp.simpleDateFormat
 import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
@@ -21,6 +22,11 @@ data class Patient(
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"
 
+    val memberSinceAsText: String?
+        get() = this.memberSince?.simpleDateFormat()
+
+    val birthDateAsText: String?
+        get() = this.birthDate?.simpleDateFormat()
 }
 
 fun examplePatient(): Patient {

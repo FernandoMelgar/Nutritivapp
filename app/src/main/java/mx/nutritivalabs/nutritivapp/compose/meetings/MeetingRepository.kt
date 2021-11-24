@@ -7,11 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import mx.nutritivalabs.nutritivapp.asDate
+import mx.nutritivalabs.nutritivapp.compose.Result
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 
 class MeetingRepository(

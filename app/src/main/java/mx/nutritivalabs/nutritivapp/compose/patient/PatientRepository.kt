@@ -3,13 +3,19 @@ package mx.nutritivalabs.nutritivapp.compose.patient
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
+import mx.nutritivalabs.nutritivapp.asDate
+import mx.nutritivalabs.nutritivapp.compose.Result
 import mx.nutritivalabs.nutritivapp.patient.Patient
+import mx.nutritivalabs.nutritivapp.patient.exampleEnergyRequirements
+import mx.nutritivalabs.nutritivapp.patient.examplePatient
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 class PatientRepository
-
 constructor(
     private val patientRef: CollectionReference = Firebase.firestore.collection("patients")
 ) {
@@ -19,6 +25,31 @@ constructor(
             patientRef.document(patient.id.toString()).set(patient)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    fun findPatientById(id: String): Flow<Result<Patient>> = flow {
+        try {
+            emit(Result.Loading())
+            val patient = patientRef.document(id).get().await().let { patient ->
+                Patient(
+                    id = patient.get("id").toString(),
+                    firstName = patient.get("firstName").toString(),
+                    paternalLastName = patient.get("paternalLastName").toString(),
+                    maternalLastName = patient.get("maternalLastName").toString(),
+                    memberSince = patient.get("memberSinceAsText").toString().asDate(),
+                    birthDate = patient.get("birthDateAsText").toString().asDate(),
+                    energyRequirements = exampleEnergyRequirements(),
+                    goals = listOf(),
+                    firstTime = patient.get("firstTime").toString().toBoolean(),
+                    email = patient.get("email").toString(),
+                    phoneNumber = patient.get("phoneNumber").toString(),
+                    profilePictureURL = patient.get("profilePictureURL").toString()
+                )
+            }
+            emit(Result.Success(data = patient))
+        } catch (e: Exception) {
+            emit(Result.Error(message = e.localizedMessage ?: "Error desconocido"))
         }
     }
 }

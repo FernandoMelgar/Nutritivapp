@@ -1,4 +1,4 @@
-package mx.nutritivalabs.nutritivapp.compose.meetings.states
+package mx.nutritivalabs.nutritivapp.compose.meetings.state
 
 import mx.nutritivalabs.nutritivapp.compose.meetings.emptyMeeting
 import mx.nutritivalabs.nutritivapp.domain.Meeting

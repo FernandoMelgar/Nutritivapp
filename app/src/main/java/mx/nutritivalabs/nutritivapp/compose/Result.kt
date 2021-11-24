@@ -1,4 +1,4 @@
-package mx.nutritivalabs.nutritivapp.compose.meetings
+package mx.nutritivalabs.nutritivapp.compose
 
 sealed class Result<T>(
     val data: T? = null,

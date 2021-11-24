@@ -96,13 +96,16 @@ fun App() {
                 )) {
                     val id = it.arguments?.getString("id")
                     meetingViewModel.findByID(id!!)
+                    patientViewModel.findById("4bfd3a6d-df8a-421b-8498-5600fc8e81cf")
                     MeetingScreen(
-                        onPatientInfo = { idPatient ->
+                        onPatientInfo = {
                             navController.navigate(
-                                NavigationItem.Patient.withId(idPatient)
+                                NavigationItem.Patient.withId("4bfd3a6d-df8a-421b-8498-5600fc8e81cf")
                             )
                         },
-                        navController = navController, meetingViewModel = meetingViewModel
+                        navController = navController,
+                        meetingViewModel = meetingViewModel,
+                        patientViewModel = patientViewModel
                     )
 
                 }
@@ -112,7 +115,8 @@ fun App() {
                     }
                 )) {
                     val id = it.arguments?.getString("id")
-                    PatientScreen(viewModel = patientViewModel, patientId = id!!)
+                    patientViewModel.findById(id!!)
+                    PatientScreen(viewModel = patientViewModel)
                 }
 
                 composable(NavigationItem.CreateMeeting.route) {
