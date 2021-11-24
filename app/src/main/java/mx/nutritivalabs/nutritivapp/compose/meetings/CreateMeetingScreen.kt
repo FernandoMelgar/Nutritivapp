@@ -58,7 +58,7 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
                 color = MaterialTheme.colors.secondary
             )
             CustomDropdownMenu(
-                listOf("22276bec-0d5c-4a11-aafc-64848e21866d"),
+                mapOf("Fernando Melgar" to "22276bec-0d5c-4a11-aafc-64848e21866d"),
                 {patientId = it},
                 "Id. Paciente",
                 patientId

@@ -123,7 +123,7 @@ fun DisplayInfoSection(title: String, data: Map<String, Any>) {
 
 @Composable
 fun CustomDropdownMenu(
-    options: List<String>,
+    options: Map<String, String>,
     onSelected: (String) -> Unit,
     label: String,
     value: String
@@ -131,7 +131,7 @@ fun CustomDropdownMenu(
     var expanded by remember { mutableStateOf(false) }
 
     var textfieldSize by remember { mutableStateOf(Size.Zero) }
-
+    var selectedText by remember { mutableStateOf("") }
     val icon = if (expanded)
         Icons.Filled.KeyboardArrowUp
     else
@@ -140,9 +140,10 @@ fun CustomDropdownMenu(
 
     Column {
         OutlinedTextField(
-            value = value,
+            value = selectedText,
             onValueChange = {
                 onSelected(it)
+                selectedText = it
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -162,12 +163,13 @@ fun CustomDropdownMenu(
             modifier = Modifier
                 .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
         ) {
-            options.forEach { label ->
+            for ((k, v) in options){
                 DropdownMenuItem(onClick = {
-                    onSelected(label)
+                    onSelected(v)
+                    selectedText = k
                     expanded = false
                 }) {
-                    Text(text = label)
+                    Text(text = k)
                 }
             }
         }
