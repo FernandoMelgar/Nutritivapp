@@ -1,5 +1,9 @@
 package mx.nutritivalabs.nutritivapp.patient
 
+import mx.nutritivalabs.nutritivapp.compose.mockAnthropometricData
+import mx.nutritivalabs.nutritivapp.compose.mockClinicData
+import mx.nutritivalabs.nutritivapp.compose.mockDieteticData
+import mx.nutritivalabs.nutritivapp.compose.mockLifeStyleData
 import mx.nutritivalabs.nutritivapp.simpleDateFormat
 import java.io.Serializable
 import java.time.LocalDate
@@ -15,9 +19,10 @@ data class Patient(
     val energyRequirements: EnergyRequirements? = null,
     val goals: List<String>? = null,
     val firstTime: Boolean = true,
-    val email: String? = null,
+    val email: String? = "",
     val phoneNumber: String? = null,
-    val profilePictureURL: String = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    val profilePictureURL: String = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    val clinicData: Map<String, Any>
 ) {
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"
@@ -42,7 +47,8 @@ fun examplePatient(): Patient {
         email = "fernandom.melgar@gmail.com",
         phoneNumber = "5548351244",
         profilePictureURL = "https://images4.alphacoders.com/738/thumb-1920-73806.jpg",
-        memberSince = Calendar.getInstance().time
+        memberSince = Calendar.getInstance().time,
+        clinicData = mapOf()
     )
 }
 

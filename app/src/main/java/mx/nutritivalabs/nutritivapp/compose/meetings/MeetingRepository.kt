@@ -9,8 +9,10 @@ import kotlinx.coroutines.tasks.await
 import mx.nutritivalabs.nutritivapp.asDate
 import mx.nutritivalabs.nutritivapp.compose.Result
 import mx.nutritivalabs.nutritivapp.domain.Meeting
-import org.json.JSONArray
+import mx.nutritivalabs.nutritivapp.simpleDateFormat
+import mx.nutritivalabs.nutritivapp.toMap
 import org.json.JSONObject
+import java.util.*
 
 
 class MeetingRepository(
@@ -25,14 +27,17 @@ class MeetingRepository(
         }
     }
 
-    fun getMeetingsByDate(): Flow<Result<List<Meeting>>> = flow {
+    fun getMeetingsByDate(date: String, nutritionistId: Long): Flow<Result<List<Meeting>>> = flow {
         try {
             emit(Result.Loading())
-            val list = meetingRef.get().await().map { meeting ->
+            val list = meetingRef.get().await()
+                .filter{ meeting ->
+                    meeting.get("dateAsString").toString() == date
+            }.map { meeting ->
                 Meeting(
                     id = meeting.get("id").toString(),
                     date = meeting.get("dateAsString").toString().asDate()!!,
-                    patientId = "1",
+                    patientId = meeting.get("patientId").toString(),
                     patientName = meeting.get("patientName").toString(),
                     startTime = meeting.get("startTime").toString(),
                     endTime = meeting.get("endTime").toString(),
@@ -73,16 +78,3 @@ class MeetingRepository(
 
 }
 
-fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
-    when (val value = this[it])
-    {
-        is JSONArray ->
-        {
-            val map = (0 until value.length()).associate { Pair(it.toString(), value[it].toString()) }
-            JSONObject(map).toMap().values.toList()
-        }
-        is JSONObject -> value.toMap()
-        JSONObject.NULL -> null
-        else            -> value
-    }
-}

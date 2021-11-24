@@ -17,11 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
+import mx.nutritivalabs.nutritivapp.simpleDateFormat
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 import mx.nutritivalabs.nutritivapp.ui.theme.black
 
 @Composable
-fun PatientScreen(viewModel: PatientViewModel) {
+fun PatientDetailScreen(viewModel: PatientViewModel) {
     val state = viewModel.state.value
     val scrollState = rememberScrollState()
 
@@ -31,30 +32,24 @@ fun PatientScreen(viewModel: PatientViewModel) {
             .verticalScroll(scrollState)
     ) {
         UpperBar("Paciente")
-        PatientInfoChip(
-            state.patient?.profilePictureURL ?: "",
-            state.patient?.fullName ?: "",
-            state.patient?.memberSince.toString() ?: ""
-        )
-        DisplayInfoSection(
-            "Requerimientos energéticos",
-            mockEnergyRequirementsData()
-        )
-        DisplayInfoSection("Datos antropométricos", mockAnthropometricData())
-        DisplayInfoSection(
-            "Datos Clínicos",
-            mockClinicData()
-        )
-        DisplayInfoSection(
-            "Dietéticos",
-            mockDieteticData()
-        )
-        DisplayInfoSection(
-            "Estilo de vida",
-            mockLifeStyleData()
-        )
-        GettingInContact()
-        Spacer(Modifier.height(120.dp))
+        if (state.patient != null) {
+            PatientInfoChip(
+                state.patient.profilePictureURL,
+                state.patient.fullName,
+                state.patient.memberSince?.simpleDateFormat() ?: ""
+            )
+            DisplayInfoSection(
+                "Información General",
+                mapOf(
+                    "Fecha de Nacimiento" to (state.patient.birthDate?.simpleDateFormat() ?: ""),
+                    "Email" to (state.patient.email ?: ""),
+                    "Teléfono" to (state.patient.phoneNumber ?: "")
+                )
+            )
+            DisplayInfoSection("Datos Clínicos", state.patient.clinicData)
+            GettingInContact()
+            Spacer(Modifier.height(120.dp))
+        }
 
     }
 }
@@ -152,36 +147,36 @@ private fun mockEnergyRequirementsData(): Map<String, String> {
 }
 
 
-private fun mockAnthropometricData(): Map<String, String> {
+fun mockAnthropometricData(): Map<String, String> {
     return mapOf(
-        "talla" to "176",
-        "Porcentaje grasa" to "18%",
-        "Porcentaje agua" to "71%",
-        "Porcentaje músculo" to "22 %",
+        "Talla" to "176",
+        "Grasa" to "18%",
+        "Agua" to "71%",
+        "Musculo" to "22 %",
     )
 }
 
-private fun mockClinicData(): Map<String, String> {
+fun mockClinicData(): Map<String, String> {
     return mapOf(
         "Patologías" to "No hay patologías",
-        "Signos y síntomas gastrointestinales" to "No hay problemas",
-        "Antecedentes heredofamiliares" to "No hay antecedentes"
+        "Signos" to "No hay problemas",
+        "Antecedentes" to "No hay antecedentes"
     )
 }
 
-private fun mockDieteticData(): Map<String, String> {
+fun mockDieteticData(): Map<String, String> {
     return mapOf(
-        "Alergias a alimentos" to "No hay alergias",
-        "Intolerancia a alimentos" to "No hay intolerancias",
-        "Alimentos que le gustan/no le gustan" to "Frutas, yogurt, cereales, avena, sushi, comida crujiente"
+        "Alergias" to "No hay alergias",
+        "Intolerancias" to "No hay intolerancias",
+        "Gustos" to "Frutas, yogurt, cereales, avena, sushi, comida crujiente"
     )
 }
 
-private fun mockLifeStyleData(): Map<String, String> {
+fun mockLifeStyleData(): Map<String, String> {
     return mapOf(
-        "Requerimiento hídrico" to "2450 ml",
+        "Hídrico" to "2450 ml",
         "Ejercicio" to "Gym 5 veces a la semana, 1:30hrs en promedio",
         "Toxicomanías" to "",
-        "Calidad de sueño" to "Baja"
+        "Sueño" to "Baja"
     )
 }

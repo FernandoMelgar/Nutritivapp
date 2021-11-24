@@ -43,22 +43,29 @@ fun MeetingScreen(
             .verticalScroll(scrollState)
     ) {
         UpperBar(title = "Cita")
-        Box(Modifier.clickable { onPatientInfo() }) {
-            PatientInfoChip(
-                patientState.patient?.profilePictureURL ?: ":cc",
-                patientState.patient?.fullName ?: ":cc",
-                patientState.patient?.memberSince.toString()
-            )
+        if (patientState.patient != null) {
+            Box(Modifier.clickable { onPatientInfo() }) {
 
-        }
-        if (state.meeting == null) {
-            Text("Error al hacer fetch de los datos")
-        } else {
-            DisplayInfoSection(title = "Información de la reunión", data = state.meeting.meetingInfo)
-            HistorialDeReuniones(navController, listOf(), state.meeting.id!!)
-        }
-        Spacer(Modifier.height(120.dp))
+                PatientInfoChip(
+                    patientState.patient.profilePictureURL,
+                    patientState.patient.fullName,
+                    patientState.patient.memberSince?.simpleDateFormat() ?: ""
+                )
 
+
+            }
+            if (state.meeting == null) {
+                Text("Error al hacer fetch de los datos")
+            } else {
+                DisplayInfoSection(
+                    title = "Información de la reunión",
+                    data = state.meeting.meetingInfo
+                )
+                HistorialDeReuniones(navController, listOf(), state.meeting.id!!)
+            }
+            Text(state.error ?: "")
+            Spacer(Modifier.height(120.dp))
+        }
     }
 }
 

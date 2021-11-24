@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -47,6 +46,7 @@ fun App() {
     val meetingViewModel = MeetingViewModel()
     val patientViewModel: PatientViewModel = PatientViewModel()
 
+
     NutritivappTheme() {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -76,11 +76,11 @@ fun App() {
                 startDestination = NavigationItem.Schedule.route
             ) {
                 composable(route = NavigationItem.Schedule.route) {
-                    meetingViewModel.findMeetings(Calendar.getInstance().time, 1)
+                    meetingViewModel.findMeetings(Calendar.getInstance().time.simpleDateFormat(), 1)
                     ScheduleScreen(
                         navController,
-                        meetingViewModel
-                    )
+                        meetingViewModel,
+                        patientViewModel)
                 }
                 composable(route = NavigationItem.Patients.route) {
                     PatientsScreen(patientViewModel::addNewPatient)
@@ -96,11 +96,10 @@ fun App() {
                 )) {
                     val id = it.arguments?.getString("id")
                     meetingViewModel.findByID(id!!)
-                    patientViewModel.findById("4bfd3a6d-df8a-421b-8498-5600fc8e81cf")
                     MeetingScreen(
                         onPatientInfo = {
                             navController.navigate(
-                                NavigationItem.Patient.withId("4bfd3a6d-df8a-421b-8498-5600fc8e81cf")
+                                NavigationItem.Patient.withId(patientViewModel.state.value.patient?.id!!)
                             )
                         },
                         navController = navController,
@@ -116,11 +115,12 @@ fun App() {
                 )) {
                     val id = it.arguments?.getString("id")
                     patientViewModel.findById(id!!)
-                    PatientScreen(viewModel = patientViewModel)
+                    PatientDetailScreen(viewModel = patientViewModel)
                 }
 
                 composable(NavigationItem.CreateMeeting.route) {
-                    CreateMeetingScreen(navController, meetingViewModel)
+                    patientViewModel.findAll()
+                    CreateMeetingScreen(navController, meetingViewModel, patientViewModel)
                 }
 
             }

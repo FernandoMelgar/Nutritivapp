@@ -36,8 +36,8 @@ constructor(
 
 
 
-    fun findMeetings(date: Date, nutritionistId: Long) {
-        meetingRepository.getMeetingsByDate().onEach { result ->
+    fun findMeetings(date: String, nutritionistId: Long) {
+        meetingRepository.getMeetingsByDate(date, nutritionistId).onEach { result ->
             when(result) {
                 is Result.Error -> {
                     _stateList.value = MeetingListDetailState(error = result.message  ?: "Error inesperado" )
@@ -71,6 +71,11 @@ constructor(
     fun findLastTen(patientId: String): List<Meeting> {
         return listOf()
     }
+
+    fun onDateSelect(date: String) {
+        this.findMeetings(date, 1)
+    }
+
 }
 
 fun emptyMeeting(): Meeting {

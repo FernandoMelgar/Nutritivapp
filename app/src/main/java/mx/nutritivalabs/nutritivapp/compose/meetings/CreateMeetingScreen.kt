@@ -22,14 +22,17 @@ import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import mx.nutritivalabs.nutritivapp.asDate
 import mx.nutritivalabs.nutritivapp.compose.CustomDropdownMenu
+import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
 import mx.nutritivalabs.nutritivapp.domain.Meeting
 import mx.nutritivalabs.nutritivapp.simpleFormat
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingViewModel) {
+fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingViewModel, patientViewModel: PatientViewModel) {
     var patientId by remember { mutableStateOf("") }
+    var patientName by remember { mutableStateOf("") }
+
     var selectedDate by remember { mutableStateOf("") }
     var start by remember { mutableStateOf("") }
     var end by remember { mutableStateOf("") }
@@ -38,6 +41,8 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
     val startTimeDialogState = rememberMaterialDialogState()
     val endTimeDialogState = rememberMaterialDialogState()
 
+    val patientListState = patientViewModel.stateList.value
+    val patientsOptions = patientListState.patients.map { it.fullName to  (it.id ?: "")}.toMap()
 
     Surface(
         shape = RoundedCornerShape(8.dp),
@@ -58,10 +63,13 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
                 color = MaterialTheme.colors.secondary
             )
             CustomDropdownMenu(
-                mapOf("Fernando Melgar" to "22276bec-0d5c-4a11-aafc-64848e21866d"),
-                {patientId = it},
-                "Id. Paciente",
-                patientId
+                options = patientsOptions,
+                onSelected = { id, name ->
+                    patientId = id
+                    patientName = name
+                },
+                label = "Paciente",
+                value = patientId
             )
 
             OutlinedTextField(
@@ -108,7 +116,7 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
                     meetingViewModel.addNewMeeting(
                         Meeting(
                             id = UUID.randomUUID().toString(),
-                            patientName = "",
+                            patientName = patientName,
                             patientId = patientId,
                             startTime = start,
                             endTime = end,

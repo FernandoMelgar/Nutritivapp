@@ -27,9 +27,34 @@ constructor(
     val state: State<PatientDetailState>
         get() = _state
 
+    private val _stateList: MutableState<PatientListDetailState> = mutableStateOf(PatientListDetailState())
+    val stateList: State<PatientListDetailState>
+        get() = _stateList
+
+
+
     fun addNewPatient(patient: Patient) {
         patientRepository.addNewPatient(patient)
     }
+
+    fun findAll() {
+        patientRepository.findAll().onEach { result ->
+            when(result) {
+                is Result.Error -> {
+                    _stateList.value = PatientListDetailState(error = result.message  ?: "Error inesperado" )
+                }
+                is Result.Loading -> {
+                    _stateList.value = PatientListDetailState(isLoading = true)
+                }
+                is Result.Success -> {
+                    _stateList.value = PatientListDetailState(patients = result.data ?: listOf())
+                }
+            }
+        }.launchIn(viewModelScope)
+
+    }
+
+
 
 
     fun findById(id: String) {
@@ -64,7 +89,8 @@ private fun vicPatient(): Patient {
         email = "victor.sanchez@gmail.com",
         phoneNumber = "553648273",
         profilePictureURL = "https://static.wikia.nocookie.net/minion/images/2/27/Vector.png/revision/latest/top-crop/width/360/height/450?cb=20150724225830&path-prefix=es",
-        memberSince = Calendar.getInstance().time
+        memberSince = Calendar.getInstance().time,
+        clinicData = mapOf()
     )
 }
 
@@ -80,7 +106,8 @@ private fun arthurPatient() = Patient(
     email = "arturo.marquez@gmail.com",
     phoneNumber = "553648273",
     profilePictureURL = "https://i2.wp.com/revistadiners.com.co/wp-content/uploads/2017/03/loganwolverine_800x669.jpg?fit=800%2C669&ssl=1",
-    memberSince = Calendar.getInstance().time
+    memberSince = Calendar.getInstance().time,
+    clinicData = mapOf()
 )
 
 private fun rubenPatient(): Patient {
@@ -96,6 +123,7 @@ private fun rubenPatient(): Patient {
         email = "ruben.villalpando@gmail.com",
         phoneNumber = "553648273",
         profilePictureURL = "https://static.wikia.nocookie.net/middle-earth-film-saga/images/7/77/Legolas.png/revision/latest/top-crop/width/360/height/450?cb=20160207050831",
-        memberSince = Calendar.getInstance().time
+        memberSince = Calendar.getInstance().time,
+        clinicData = mapOf()
     )
 }

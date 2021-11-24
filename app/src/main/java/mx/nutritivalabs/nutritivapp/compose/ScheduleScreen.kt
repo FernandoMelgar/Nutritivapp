@@ -28,17 +28,23 @@ import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.asDate
 import mx.nutritivalabs.nutritivapp.compose.meetings.MeetingViewModel
 import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
+import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
 import mx.nutritivalabs.nutritivapp.domain.Meeting
+import mx.nutritivalabs.nutritivapp.simpleDateFormat
 import mx.nutritivalabs.nutritivapp.ui.theme.LightRed
 import java.util.*
 
 @Composable
-fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingViewModel) {
+fun ScheduleScreen(
+    navController: NavHostController,
+    meetingViewModel: MeetingViewModel,
+    patientViewModel: PatientViewModel
+) {
     val scrollState = rememberScrollState()
     val calendar = Calendar.getInstance()
     var selectedDay by remember { mutableStateOf(calendar.get(Calendar.DAY_OF_MONTH)) }
     val state = meetingViewModel.stateList.value
-    calendar.set(Calendar.DAY_OF_YEAR, selectedDay)
+
     Box(
         Modifier
             .fillMaxSize()
@@ -47,21 +53,30 @@ fun ScheduleScreen(navController: NavHostController, meetingViewModel: MeetingVi
         Column {
             GreetingSection()
             Spacer(modifier = Modifier.height(24.dp))
-
             CalendarSection {
-                meetingViewModel.findMeetings("23/11/2021".asDate()!!, 1)
+                meetingViewModel.onDateSelect("$it/11/2021")
                 selectedDay = it
             }
             Spacer(modifier = Modifier.height(24.dp))
             MeetingSection(
-                navController = navController,
                 meetings = state.meetings,
-                onMeetingCreate = { navController.navigate(NavigationItem.CreateMeeting.route) })
+                onMeetingCreate = { navController.navigate(NavigationItem.CreateMeeting.route) },
+                onChipSelect = { meetingId, patientId ->
+                    patientViewModel.findById(patientId)
+                    navController.navigate(
+                        NavigationItem.Meeting.withId(
+                            meetingId
+                        ))
+                }
+            )
             Spacer(modifier = Modifier.height(100.dp))
 
         }
     }
 }
+
+
+
 
 
 @Composable
@@ -185,19 +200,19 @@ fun MeetingChip(
 
 @Composable
 fun MeetingSection(
-    navController: NavHostController,
     meetings: List<Meeting>,
-    onMeetingCreate: () -> Unit
+    onMeetingCreate: () -> Unit,
+    onChipSelect: (String, String) -> Unit
 ) {
     if (meetings.isEmpty())
         Text("No hay citas.")
     for (meet in meetings) {
         MeetingChip(
             patientName = meet.patientName,
-            desc = "${meet.date}: ${meet.startTime} - ${meet.endTime}",
+            desc = "${meet.date.simpleDateFormat()}: ${meet.startTime} - ${meet.endTime}",
             height = 200,
             color = LightRed,
-            onClick = { navController.navigate(NavigationItem.Meeting.withId(meet.id!!)) }
+            onClick = { onChipSelect(meet.id!!, meet.patientId!!) }
         )
     }
 
