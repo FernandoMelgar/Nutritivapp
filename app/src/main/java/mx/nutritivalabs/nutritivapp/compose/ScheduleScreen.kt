@@ -51,7 +51,7 @@ fun ScheduleScreen(
             .verticalScroll(scrollState)
     ) {
         Column {
-            GreetingSection()
+            GreetingSection(onProfileClick = { navController.navigate(NavigationItem.UserSetting.route) })
             Spacer(modifier = Modifier.height(24.dp))
             CalendarSection {
                 meetingViewModel.onDateSelect("$it/11/2021")
@@ -63,6 +63,7 @@ fun ScheduleScreen(
                 onMeetingCreate = { navController.navigate(NavigationItem.CreateMeeting.route) },
                 onChipSelect = { meetingId, patientId ->
                     patientViewModel.findById(patientId)
+                    meetingViewModel.findLastTen(patientId)
                     navController.navigate(
                         NavigationItem.Meeting.withId(
                             meetingId
@@ -86,10 +87,7 @@ fun CalendarSection(onDaySelection: (Int) -> Unit) {
     val month =
         c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) ?: "Error"
 
-    Surface(
-        modifier = Modifier.padding(16.dp),
-        shape = RoundedCornerShape(8.dp)
-    ) {
+    Surface {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
@@ -119,55 +117,6 @@ fun CalendarSection(onDaySelection: (Int) -> Unit) {
 
 }
 
-@Composable
-fun GreetingSection() {
-    val context = LocalContext.current
-
-    val userName = "Lilly Collins"
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(id = R.drawable.userlilly),
-                contentDescription = "User picture",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(52.dp)
-                    .clip(CircleShape)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column(verticalArrangement = Arrangement.Center) {
-                Text(
-                    text = userName,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Glad to have you back!",
-                    style = MaterialTheme.typography.body2
-                )
-            }
-        }
-
-        Box(
-            Modifier
-                .clip(CircleShape)
-                .clickable { }) {
-            Icon(
-                Icons.Filled.Settings,
-                contentDescription = "Settings",
-                tint = Color.Gray,
-                modifier = Modifier
-                    .size(32.dp)
-            )
-        }
-
-    }
-}
 
 @Composable
 fun MeetingChip(
@@ -211,13 +160,13 @@ fun MeetingSection(
 ) {
     if (meetings.isEmpty())
         Text("No hay citas.")
-    for (meet in meetings) {
+    for (meeting in meetings) {
         MeetingChip(
-            patientName = meet.patientName,
-            desc = "${meet.date.simpleDateFormat()}: ${meet.startTime} - ${meet.endTime}",
+            patientName = meeting.patientName,
+            desc = "${meeting.date.simpleDateFormat()}: ${meeting.startTime} - ${meeting.endTime}",
             height = 200,
             color = LightRed,
-            onClick = { onChipSelect(meet.id!!, meet.patientId!!) }
+            onClick = { onChipSelect(meeting.id!!, meeting.patientId!!) }
         )
     }
 

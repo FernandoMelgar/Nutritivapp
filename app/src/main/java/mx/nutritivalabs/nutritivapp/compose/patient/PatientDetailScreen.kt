@@ -34,9 +34,10 @@ fun PatientDetailScreen(viewModel: PatientViewModel) {
         UpperBar("Paciente")
         if (state.patient != null) {
             PatientInfoChip(
-                state.patient.profilePictureURL,
-                state.patient.fullName,
-                state.patient.memberSince?.simpleDateFormat() ?: ""
+                modifier = Modifier.padding(16.dp),
+                imgUrl = state.patient.profilePictureURL,
+                fullName = state.patient.fullName,
+                patientSince = state.patient.memberSince?.simpleDateFormat() ?: ""
             )
             DisplayInfoSection(
                 "Información General",
@@ -47,14 +48,12 @@ fun PatientDetailScreen(viewModel: PatientViewModel) {
                 )
             )
             DisplayInfoSection("Datos Clínicos", state.patient.clinicData)
-            GettingInContact()
+            GettingInContact(state.patient.phoneNumber!!)
             Spacer(Modifier.height(120.dp))
         }
 
     }
 }
-
-
 
 
 @Composable
@@ -71,7 +70,7 @@ fun InfoChip(title: String, body: String) {
 }
 
 @Composable
-private fun GettingInContact() {
+private fun GettingInContact(phone: String) {
 
     val context = LocalContext.current
     Row(
@@ -79,13 +78,8 @@ private fun GettingInContact() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        Button(
-            onClick = { },
-        ) {
-            Text("Mensaje", color = MaterialTheme.colors.onSecondary)
-        }
         Button(onClick = {
-            val callIntent: Intent = Uri.parse("tel:5551234").let { number ->
+            val callIntent: Intent = Uri.parse("tel:$phone").let { number ->
                 Intent(Intent.ACTION_DIAL, number)
             }
             ActivityCompat.startActivity(context, callIntent, null)
@@ -102,10 +96,13 @@ private fun GettingInContact() {
 @Composable
 fun GeneralInfoPreview() {
     NutritivappTheme() {
-        PatientInfoChip("", "Fernando Manuel Melgar Fuentes", "18/09/2021")
+        PatientInfoChip(
+            imgUrl = "",
+            fullName = "Fernando Manuel Melgar Fuentes",
+            patientSince = "18/09/2021"
+        )
     }
 }
-
 
 
 @Composable
@@ -122,7 +119,11 @@ fun PreviewP1() {
     NutritivappTheme() {
         Column {
             UpperBar("Paciente")
-            PatientInfoChip("", "Fernando Manuel Melgar Fuentes", "18/09/2021")
+            PatientInfoChip(
+                imgUrl = "",
+                fullName = "Fernando Manuel Melgar Fuentes",
+                patientSince = "18/09/2021"
+            )
             DisplayInfoSection(
                 title = "Requerimientos energéticos",
                 data = mockEnergyRequirementsData()

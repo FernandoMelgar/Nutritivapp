@@ -1,6 +1,7 @@
 package mx.nutritivalabs.nutritivapp.compose.meetings
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -43,6 +45,8 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
 
     val patientListState = patientViewModel.stateList.value
     val patientsOptions = patientListState.patients.map { it.fullName to  (it.id ?: "")}.toMap()
+
+    val context = LocalContext.current
 
     Surface(
         shape = RoundedCornerShape(8.dp),
@@ -82,7 +86,7 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
                 enabled = false,
                 modifier = Modifier
                     .clickable { dateDialogState.show() }
-                    .width(160.dp)
+                    .width(180.dp)
             )
 
             Row() {
@@ -125,11 +129,23 @@ fun CreateMeetingScreen(navController: NavController, meetingViewModel: MeetingV
                             date = selectedDate.asDate()!!
                         )
                     )
+                    patientId = ""
+                    patientName = ""
+                    selectedDate = ""
+                    start = ""
+                    end = ""
+                    Toast
+                        .makeText(
+                            context,
+                            "Sesion Creada",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
                 },
                 enabled = (patientId.isNotBlank() && selectedDate.isNotBlank() && start.isNotBlank() && end.isNotBlank()),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Create")
+                Text("Crear")
             }
 
         }

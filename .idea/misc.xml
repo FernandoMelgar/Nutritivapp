@@ -17,6 +17,9 @@
         <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/add_patient_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/configuration_fragment.xml" value="0.4" />
         <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_notifications.xml" value="0.2578125" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_user.xml" value="0.2578125" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/patient_detail_fragment.xml" value="0.2578125" />
         <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>
     </option>

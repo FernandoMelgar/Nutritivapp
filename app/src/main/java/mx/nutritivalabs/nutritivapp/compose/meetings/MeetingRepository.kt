@@ -41,7 +41,7 @@ class MeetingRepository(
                     patientName = meeting.get("patientName").toString(),
                     startTime = meeting.get("startTime").toString(),
                     endTime = meeting.get("endTime").toString(),
-                    notes = meeting.get("date").toString(),
+                    notes = meeting.get("notes").toString(),
                     meetingInfo = mapOf()
                 )
             }
@@ -65,7 +65,7 @@ class MeetingRepository(
                     patientName = meeting.get("patientName").toString(),
                     startTime = meeting.get("startTime").toString(),
                     endTime = meeting.get("endTime").toString(),
-                    notes = meeting.get("date").toString(),
+                    notes = meeting.get("notes").toString(),
                     meetingInfo = meetingInfo as Map<String, Any>
                 )
             }
@@ -74,6 +74,31 @@ class MeetingRepository(
             emit(Result.Error(message = e.localizedMessage ?: "Error desconocido"))
         }
     }
+
+    fun getByPatient(patientId: String): Flow<Result<List<Meeting>>> = flow {
+        try {
+            emit(Result.Loading())
+            val list = meetingRef.get().await()
+                .filter{ meeting ->
+                    meeting.get("patientId").toString() == patientId
+                }.map { meeting ->
+                    Meeting(
+                        id = meeting.get("id").toString(),
+                        date = meeting.get("dateAsString").toString().asDate()!!,
+                        patientId = meeting.get("patientId").toString(),
+                        patientName = meeting.get("patientName").toString(),
+                        startTime = meeting.get("startTime").toString(),
+                        endTime = meeting.get("endTime").toString(),
+                        notes = meeting.get("notes").toString(),
+                        meetingInfo = mapOf()
+                    )
+                }
+            emit(Result.Success(data = list))
+        } catch (e: Exception) {
+            emit(Result.Error(message = e.localizedMessage ?: "Error desconocido"))
+        }
+    }
+
 
 
 }

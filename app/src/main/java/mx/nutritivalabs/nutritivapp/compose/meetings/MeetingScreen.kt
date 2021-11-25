@@ -3,6 +3,8 @@ package mx.nutritivalabs.nutritivapp.compose
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -37,6 +39,8 @@ fun MeetingScreen(
     val state = meetingViewModel.state.value
     val patientState = patientViewModel.state.value
 
+    val stateList = meetingViewModel.stateList.value
+
     Column(
         Modifier
             .fillMaxWidth()
@@ -47,9 +51,10 @@ fun MeetingScreen(
             Box(Modifier.clickable { onPatientInfo() }) {
 
                 PatientInfoChip(
-                    patientState.patient.profilePictureURL,
-                    patientState.patient.fullName,
-                    patientState.patient.memberSince?.simpleDateFormat() ?: ""
+                    modifier = Modifier.padding(16.dp),
+                    imgUrl = patientState.patient.profilePictureURL,
+                    fullName = patientState.patient.fullName,
+                    patientSince = patientState.patient.memberSince?.simpleDateFormat() ?: ""
                 )
 
 
@@ -61,7 +66,7 @@ fun MeetingScreen(
                     title = "Información de la reunión",
                     data = state.meeting.meetingInfo
                 )
-                HistorialDeReuniones(navController, listOf(), state.meeting.id!!)
+                HistorialDeReuniones(navController, stateList.meetings, state.meeting.id!!)
             }
             Text(state.error ?: "")
             Spacer(Modifier.height(120.dp))
@@ -89,14 +94,17 @@ fun HistorialDeReuniones(
             for (meeting in meetingHistory) {
                 ReunionAnteriorChip(
                     meeting.date,
-                    meeting.notes,
+                    meeting.id ?: "",
                     current = (currentId == meeting.id)
                 ) { navController.navigate(NavigationItem.Meeting.withId(meeting.id!!)) }
             }
+
             Button(
-                onClick = { /*TODO*/ }, modifier = Modifier
+                onClick = { navController.navigate(NavigationItem.CreateMeeting.route) },
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp), shape = RoundedCornerShape(8.dp)
+                    .padding(8.dp),
+                shape = RoundedCornerShape(8.dp)
             ) {
                 Text("Crear nueva cita")
             }

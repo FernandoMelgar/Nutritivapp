@@ -49,7 +49,7 @@ fun BottomNavigationBarPreview() {
             listOf(
                 NavigationItem.Schedule,
                 NavigationItem.Patients,
-                NavigationItem.Settings
+                NavigationItem.UserSetting
             ),
             rememberNavController()
         )

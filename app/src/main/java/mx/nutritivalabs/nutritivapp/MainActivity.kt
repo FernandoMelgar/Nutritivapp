@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
@@ -23,6 +20,7 @@ import mx.nutritivalabs.nutritivapp.compose.navigation.BottomNavbar
 import mx.nutritivalabs.nutritivapp.compose.navigation.NavigationItem
 import mx.nutritivalabs.nutritivapp.compose.patient.PatientViewModel
 import mx.nutritivalabs.nutritivapp.compose.patient.PatientsScreen
+import mx.nutritivalabs.nutritivapp.compose.user.UserSettingsScreen
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 import java.util.*
 
@@ -55,20 +53,9 @@ fun App() {
                     listOf(
                         NavigationItem.Schedule,
                         NavigationItem.Patients,
-                        NavigationItem.Settings
+                        NavigationItem.UserSetting
                     ), navController
                 )
-            },
-            floatingActionButtonPosition = FabPosition.End,
-            isFloatingActionButtonDocked = false,
-            floatingActionButton = {
-                FloatingActionButton(
-                    shape = CircleShape,
-                    onClick = {},
-                    backgroundColor = MaterialTheme.colors.primary
-                ) {
-                    Icon(Icons.Filled.Add, "", tint = MaterialTheme.colors.onPrimary)
-                }
             }
         ) {
             NavHost(
@@ -83,7 +70,12 @@ fun App() {
                         patientViewModel)
                 }
                 composable(route = NavigationItem.Patients.route) {
-                    PatientsScreen(patientViewModel::addNewPatient)
+                    patientViewModel.findAll()
+                    PatientsScreen(patientViewModel) {
+                        navController.navigate(
+                            NavigationItem.Patient.withId(it)
+                        )
+                    }
                 }
                 composable(route = NavigationItem.Settings.route) {
                     SettingsScreen()
@@ -95,7 +87,7 @@ fun App() {
                     }
                 )) {
                     val id = it.arguments?.getString("id")
-                    meetingViewModel.findByID(id!!)
+//                    meetingViewModel.findByID(id!!)
                     MeetingScreen(
                         onPatientInfo = {
                             navController.navigate(
@@ -121,6 +113,9 @@ fun App() {
                 composable(NavigationItem.CreateMeeting.route) {
                     patientViewModel.findAll()
                     CreateMeetingScreen(navController, meetingViewModel, patientViewModel)
+                }
+                composable(NavigationItem.UserSetting.route) {
+                    UserSettingsScreen()
                 }
 
             }

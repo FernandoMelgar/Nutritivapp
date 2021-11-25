@@ -31,4 +31,5 @@ sealed class NavigationItem(val route: String, val icon: ImageVector, val title:
     }
 
     object CreateMeeting: NavigationItem("meetings/create", Icons.Filled.Home, "Create Meeting")
+    object UserSetting: NavigationItem("user-settings", Icons.Filled.Settings, "User setting")
 }

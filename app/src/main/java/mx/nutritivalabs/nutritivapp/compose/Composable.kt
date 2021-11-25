@@ -19,12 +19,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import coil.compose.rememberImagePainter
+import mx.nutritivalabs.nutritivapp.R
 import mx.nutritivalabs.nutritivapp.ui.theme.NutritivappTheme
 
 
@@ -55,9 +57,9 @@ fun PreviewUpperBar() {
 
 
 @Composable
-fun PatientInfoChip(imgUrl: String, fullName: String, patientSince: String) {
+fun PatientInfoChip(modifier: Modifier = Modifier, imgUrl: String, fullName: String, patientSince: String) {
     Surface(
-        modifier = Modifier.padding(16.dp),
+        modifier = modifier,
         color = MaterialTheme.colors.surface,
         contentColor = MaterialTheme.colors.onSurface,
         shape = RoundedCornerShape(8.dp)
@@ -173,6 +175,46 @@ fun CustomDropdownMenu(
                 }
             }
         }
+    }
+
+}
+
+@Composable
+fun GreetingSection(onProfileClick: () -> Unit) {
+
+    val userName = "Lilly Collins"
+    Surface() {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.userlilly),
+                    contentDescription = "User picture",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(52.dp)
+                        .clip(CircleShape)
+                        .clickable { onProfileClick() }
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(verticalArrangement = Arrangement.Center) {
+                    Text(
+                        text = userName,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Glad to have you back!",
+                        style = MaterialTheme.typography.body2
+                    )
+                }
+            }
+        }
+
     }
 
 }

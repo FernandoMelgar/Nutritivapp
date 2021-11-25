@@ -68,8 +68,20 @@ constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun findLastTen(patientId: String): List<Meeting> {
-        return listOf()
+    fun findLastTen(patientId: String) {
+        meetingRepository.getByPatient(patientId).onEach { result ->
+            when(result) {
+                is Result.Error -> {
+                    _stateList.value = MeetingListDetailState(error = result.message  ?: "Error inesperado" )
+                }
+                is Result.Loading -> {
+                    _stateList.value = MeetingListDetailState(isLoading = true)
+                }
+                is Result.Success -> {
+                    _stateList.value = MeetingListDetailState(meetings = result.data ?: emptyList())
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun onDateSelect(date: String) {
