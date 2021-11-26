@@ -19,17 +19,19 @@ sealed class NavigationItem(val route: String, val icon: ImageVector, val title:
     object Schedule : NavigationItem("schedule-screen", Icons.Filled.Home, "Schedule")
     object Patients : NavigationItem("patients-screen", Icons.Filled.Person, "Patients")
     object Settings : NavigationItem("settings-screen", Icons.Filled.Settings, "Settings")
-    object Patient: NavigationItem("patients/{id}",Icons.Filled.Person, "Patient") {
-        fun withId(id: String): String {
-            return this.route.replace("{id}", id)
-        }
-    }
-    object Meeting: NavigationItem("meetings/{id}", Icons.Filled.ThumbUp, "Meetings"){
+    object Patient : NavigationItem("patients/{id}", Icons.Filled.Person, "Patient") {
         fun withId(id: String): String {
             return this.route.replace("{id}", id)
         }
     }
 
-    object CreateMeeting: NavigationItem("meetings/create", Icons.Filled.Home, "Create Meeting")
-    object UserSetting: NavigationItem("user-settings", Icons.Filled.Settings, "User setting")
+    object Meeting : NavigationItem("meetings/{id}", Icons.Filled.ThumbUp, "Meetings") {
+        fun withId(id: String): String {
+            return this.route.replace("{id}", id)
+        }
+    }
+
+    object CreateMeeting : NavigationItem("meetings/create", Icons.Filled.Home, "Create Meeting")
+    object UserSetting : NavigationItem("user-settings", Icons.Filled.Settings, "User setting")
+    object CreatePatient : NavigationItem("create-patient", Icons.Filled.Person, "Create Patient")
 }

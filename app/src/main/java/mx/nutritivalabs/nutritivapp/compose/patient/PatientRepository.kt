@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import mx.nutritivalabs.nutritivapp.asDate
 import mx.nutritivalabs.nutritivapp.compose.Result
+import mx.nutritivalabs.nutritivapp.patient.EnergyRequirements
 import mx.nutritivalabs.nutritivapp.patient.Patient
 import mx.nutritivalabs.nutritivapp.patient.exampleEnergyRequirements
 import mx.nutritivalabs.nutritivapp.patient.examplePatient
@@ -73,7 +74,13 @@ constructor(
                     maternalLastName = patient.get("maternalLastName").toString(),
                     memberSince = patient.get("memberSinceAsText").toString().asDate(),
                     birthDate = patient.get("birthDateAsText").toString().asDate(),
-                    energyRequirements = exampleEnergyRequirements(),
+                    energyRequirements = EnergyRequirements(
+                        calories = patient.get("calories").toString().toInt(),
+                        carbohydratePercentage = patient.get("carbohydratePercentage").toString().toInt(),
+                        proteinPercentage = patient.get("proteinPercentage").toString().toInt(),
+                        lipidPercentage = patient.get("lipidPercentage").toString().toInt()
+
+                    ),
                     goals = listOf(),
                     firstTime = patient.get("firstTime").toString().toBoolean(),
                     email = patient.get("email").toString(),

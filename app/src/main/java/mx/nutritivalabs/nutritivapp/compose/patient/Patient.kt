@@ -22,7 +22,7 @@ data class Patient(
     val email: String? = "",
     val phoneNumber: String? = null,
     val profilePictureURL: String = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    val clinicData: Map<String, Any>
+    val clinicData: Map<String, Any> = mapOf()
 ) {
     val fullName: String
         get() = "$firstName $paternalLastName $maternalLastName"
@@ -32,6 +32,19 @@ data class Patient(
 
     val birthDateAsText: String?
         get() = this.birthDate?.simpleDateFormat()
+
+    val calories: Int?
+        get() = this.energyRequirements?.calories
+
+    val proteinPercentage: Int?
+        get() = this.energyRequirements?.proteinPercentage
+
+    val carbohydratePercentage: Int?
+        get() = this.energyRequirements?.carbohydratePercentage
+
+    val lipidPercentage: Int?
+        get() = this.energyRequirements?.lipidPercentage
+
 }
 
 fun examplePatient(): Patient {

@@ -47,6 +47,15 @@ fun PatientDetailScreen(viewModel: PatientViewModel) {
                     "Teléfono" to (state.patient.phoneNumber ?: "")
                 )
             )
+            DisplayInfoSection(
+                title = "Requerimientos Energéticos", data =
+                mapOf(
+                    "Calorías" to state.patient.calories.toString(),
+                    "Carbohidratos" to "${state.patient.carbohydratePercentage}%",
+                    "Proteína" to "${state.patient.proteinPercentage}%",
+                    "Lípidos" to "${state.patient.lipidPercentage}%",
+                )
+            )
             DisplayInfoSection("Datos Clínicos", state.patient.clinicData)
             GettingInContact(state.patient.phoneNumber!!)
             Spacer(Modifier.height(120.dp))

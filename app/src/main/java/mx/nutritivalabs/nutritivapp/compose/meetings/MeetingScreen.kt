@@ -63,7 +63,7 @@ fun MeetingScreen(
                 Text("Error al hacer fetch de los datos")
             } else {
                 DisplayInfoSection(
-                    title = "Información de la reunión",
+                    title = "Información de la cita",
                     data = state.meeting.meetingInfo
                 )
                 HistorialDeReuniones(navController, stateList.meetings, state.meeting.id!!)
@@ -84,7 +84,7 @@ fun HistorialDeReuniones(
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = "Historial de reuniones  ",
+                text = "Historial de citas  ",
                 modifier = Modifier.padding(bottom = 16.dp),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
