@@ -35,6 +35,7 @@ constructor(
         get() = _stateList
 
 
+    var selectedDate = mutableStateOf("")
 
     fun findMeetings(date: String, nutritionistId: Long) {
         meetingRepository.getMeetingsByDate(date, nutritionistId).onEach { result ->

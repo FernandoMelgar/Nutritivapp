@@ -53,14 +53,17 @@ fun ScheduleScreen(
         Column {
             GreetingSection(onProfileClick = { navController.navigate(NavigationItem.UserSetting.route) })
             Spacer(modifier = Modifier.height(24.dp))
-            CalendarSection {
+            CalendarSection(selectedDay) {
                 meetingViewModel.onDateSelect("$it/11/2021")
                 selectedDay = it
             }
             Spacer(modifier = Modifier.height(24.dp))
             MeetingSection(
                 meetings = state.meetings,
-                onMeetingCreate = { navController.navigate(NavigationItem.CreateMeeting.route) },
+                onMeetingCreate = {
+                    meetingViewModel.selectedDate.value = "$selectedDay/11/2021"
+                    navController.navigate(NavigationItem.CreateMeeting.route)
+                },
                 onChipSelect = { meetingId, patientId ->
                     patientViewModel.findById(patientId)
                     meetingViewModel.findLastTen(patientId)
@@ -79,13 +82,15 @@ fun ScheduleScreen(
 
 
 @Composable
-fun CalendarSection(onDaySelection: (Int) -> Unit) {
+fun CalendarSection(selectedDate: Int, onDaySelection: (Int) -> Unit) {
     val days = mutableListOf<Int>()
     val c = Calendar.getInstance()
     for (i in c.get(Calendar.DAY_OF_MONTH)..c.getActualMaximum(Calendar.DAY_OF_MONTH))
         days.add(i)
     val month =
         c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) ?: "Error"
+
+
 
     Surface {
         Column(
@@ -96,17 +101,25 @@ fun CalendarSection(onDaySelection: (Int) -> Unit) {
             Spacer(modifier = Modifier.height(18.dp))
             LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
                 items(days) { day ->
+                    val bgColor = if (selectedDate == day)
+                        MaterialTheme.colors.primary
+                    else MaterialTheme.colors.surface
+
+                    val textColor = if (selectedDate == day)
+                        MaterialTheme.colors.onPrimary
+                    else MaterialTheme.colors.onSurface
+
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .padding(start = 12.dp)
                             .size(50.dp)
                             .clip(CircleShape)
-                            .background(MaterialTheme.colors.surface)
+                            .background(bgColor)
                             .border(1.5.dp, MaterialTheme.colors.primary, CircleShape)
                             .clickable { onDaySelection(day) }
                     ) {
-                        Text(day.toString(), color = MaterialTheme.colors.onSurface)
+                        Text(day.toString(), color = textColor)
                     }
                 }
             }

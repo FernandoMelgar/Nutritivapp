@@ -106,7 +106,7 @@ fun HistorialDeReuniones(
                     .padding(8.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Crear nueva cita")
+                Text("Nueva cita")
             }
 
         }
