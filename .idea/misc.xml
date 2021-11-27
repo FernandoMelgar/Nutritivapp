@@ -13,7 +13,13 @@
         <entry key="..\:/Users/Rupy/Documents/Trabajos Uni/7mo semestre/aplicacionesMoviles/Nutritivapp/app/src/main/res/layout/fragment_patients_list.xml" value="0.14375" />
         <entry key="..\:/Users/Rupy/Documents/Trabajos Uni/7mo semestre/aplicacionesMoviles/Nutritivapp/app/src/main/res/layout/fragment_user.xml" value="0.22146739130434784" />
         <entry key="..\:/Users/Rupy/Documents/Trabajos Uni/7mo semestre/aplicacionesMoviles/Nutritivapp/app/src/main/res/layout/patient_row.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/activity_home_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/add_patient_fragment.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/configuration_fragment.xml" value="0.4" />
         <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_notifications.xml" value="0.2578125" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/fragment_user.xml" value="0.2578125" />
+        <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/layout/patient_detail_fragment.xml" value="0.2578125" />
         <entry key="..\:/Users/ferna/AndroidStudioProjects/Nutritivapp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>
     </option>
